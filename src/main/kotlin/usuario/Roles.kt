@@ -2,5 +2,9 @@ package usuario
 
 enum class Roles {
     ESTANDAR,
-    ADMINISTRADOR
+    ADMINISTRADOR;
+
+    override fun toString(): String {
+        return name.lowercase()
+    }
 }
