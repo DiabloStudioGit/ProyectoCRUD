@@ -18,31 +18,18 @@ class GestionarUsuarios {
     }
 
     fun crearUsuario(usuario : Usuario) {
-        val fileStream = FileOutputStream(FICHERO_USUARIOS, true)
-        val objectStream = ObjectOutputStream(fileStream)
-        objectStream.writeObject(usuario)
-        objectStream.close()
+        this.usuarios.add(usuario)
+        this.guardarUsuarios()
         println("Usuario \"${usuario.nombre}\" creado correctamente.")
     }
 
-    fun borrarUsuario(usuarioBorrar : Usuario) {
-        val usuariosActuales = arrayListOf<Usuario>()
-        var borrado = false
-
-        val usuarios = obtenerUsuarios()
-        for (usuario in usuarios) {
-            if (usuario == usuarioBorrar) {
-                borrado = true
-            }else {
-                usuariosActuales.add(usuario)
-            }
-        }
-
-        if (borrado) {
+    fun borrarUsuario(usuario : Usuario) {
+        if (this.usuarios.contains(usuario)) {
+            this.usuarios.remove(usuario)
+            this.guardarUsuarios()
             println("Usuario borrado correctamente.")
-            guardarUsuarios(usuariosActuales)
         }else {
-            println("No se ha encontrado al usuario.")
+            println("No se ha podido encontrar el usuario.")
         }
     }
 
@@ -85,10 +72,10 @@ class GestionarUsuarios {
 
     }
 
-    private fun guardarUsuarios(usuarios : List<Usuario>) {
+    private fun guardarUsuarios() {
         val fileStream = FileOutputStream(FICHERO_USUARIOS)
         val objectStream = ObjectOutputStream(fileStream)
-        for (usuario in usuarios) {
+        for (usuario in this.usuarios) {
             objectStream.writeObject(usuario)
         }
         objectStream.close()
