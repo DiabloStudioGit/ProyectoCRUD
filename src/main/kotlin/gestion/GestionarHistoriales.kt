@@ -13,16 +13,29 @@ class GestionarHistoriales {
     private val FICHERO_HISTORIALES = "historiales.dat"
     private var historiales : ArrayList<Historial>
 
+    /**
+     * Constructor para inicializar los historiales.
+     */
     constructor() {
         this.historiales = this.obtenerHistoriales()
     }
 
+    /**
+     * Añade el historial al listado de historiales tanto instanciado como al fichero.
+     *
+     * @param historial Historial a añadir
+     */
     fun añadirHistorial(historial : Historial) {
         this.historiales.add(historial)
         this.guardarHistoriales()
         println("Historial creado correctamente.")
     }
 
+    /**
+     * Borra el historial de la lista de historiales y actualiza el fichero.
+     *
+     * @param historial Historial a eliminar.
+     */
     fun borrarHistorial(historial : Historial) {
         if (this.historiales.contains(historial)) {
             this.historiales.remove(historial)
@@ -33,6 +46,12 @@ class GestionarHistoriales {
         }
     }
 
+    /**
+     * Devuelve el historial con el usuario en cuestion.
+     *
+     * @param usuario Usuario a buscar entre los historailes.
+     * @return El historial en caso de encontrarlo o null en caso opuesto.
+     */
     fun obtenerHistorial(usuario : Usuario) : Historial? {
         var historialBuscado : Historial? = null
 
@@ -49,6 +68,12 @@ class GestionarHistoriales {
         return historialBuscado
     }
 
+    /**
+     * Devuelve el historial con el email en cuestion.
+     *
+     * @param email Email a buscar entre los historailes.
+     * @return El historial en caso de encontrarlo o null en caso opuesto.
+     */
     fun obtenerHistorial(email : String) : Historial? {
         var historialBuscado : Historial? = null
 
@@ -65,6 +90,12 @@ class GestionarHistoriales {
         return historialBuscado
     }
 
+    /**
+     * Modifica un historial completo a raiz de una plantilla (Otro historial falso).
+     *
+     * @param historialOriginal Historial a modificar.
+     * @param datosNuevos Plantilla de historial con los datos nuevos.
+     */
     fun modificarHistorial(historialOriginal : Historial, datosNuevos : Historial) {
         var exito = false
         for (i in this.historiales.indices) {
@@ -82,6 +113,11 @@ class GestionarHistoriales {
         }
     }
 
+    /**
+     * Obtiene todos los historiales que se encuentren en el fichero.
+     *
+     * @return Devuelve la lista de historiales.
+     */
     private fun obtenerHistoriales() : ArrayList<Historial> {
         var historialesExistentes = ArrayList<Historial>()
         val fichero = File(FICHERO_HISTORIALES)
@@ -100,6 +136,9 @@ class GestionarHistoriales {
         return historialesExistentes
     }
 
+    /**
+     * Guarda/Actualiza los historiales que se encuentren actualmente en la memoria del programa.
+     */
     private fun guardarHistoriales() {
         val fileStream = FileOutputStream(FICHERO_HISTORIALES)
         val objectStream = ObjectOutputStream(fileStream)
