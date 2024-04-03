@@ -8,6 +8,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
+import java.io.StreamCorruptedException
 
 class GestionarUsuarios {
     private val FICHERO_USUARIOS = "usuarios.dat"
@@ -55,13 +56,14 @@ class GestionarUsuarios {
     fun obtenerUsuario(email : String) : Usuario? {
         var usuarioBuscado : Usuario? = null
 
-        val usuarios = obtenerUsuarios()
-        for (usuario in usuarios) {
+        for (usuario in this.usuarios) {
             if (usuario.email.equals(email, true)) {
                 usuarioBuscado = usuario
-            }else {
-                println("No se ha encontrado el usuario.")
             }
+        }
+
+        if (usuarioBuscado == null) {
+            println("No se ha encontrado el usuario.")
         }
 
         return usuarioBuscado
@@ -80,7 +82,9 @@ class GestionarUsuarios {
                 exito = true
             }
         }
+
         if (exito) {
+            this.guardarUsuarios()
             println("Se ha modificado el permiso del usuario ${usuario.nombre} correctamente.")
         }else {
             println("No se ha encontrado el usuario ${usuario.nombre}.")
@@ -101,7 +105,9 @@ class GestionarUsuarios {
                 exito = true
             }
         }
+
         if (exito) {
+            this.guardarUsuarios()
             println("Se ha modificado el usuario ${usuarioOriginal.nombre} correctamente.")
         }else {
             println("No se ha encontrado el usuario ${usuarioOriginal.nombre}.")
@@ -136,7 +142,8 @@ class GestionarUsuarios {
                 val fileInputStream = FileInputStream(FICHERO_USUARIOS)
                 objectInputStream = ObjectInputStream(fileInputStream)
                 usuariosExistentes = objectInputStream.readObject() as ArrayList<Usuario>
-            }catch (_: EOFException) {
+            }catch (exception : StreamCorruptedException) {
+                println("Los datos no se han podido obtener.")
             } finally {
                 objectInputStream?.close()
             }
