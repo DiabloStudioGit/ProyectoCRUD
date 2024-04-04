@@ -3,7 +3,6 @@ package menusBackend
 import usuario.Usuario
 
 class InputsLogin {
-
     /**
      * Permite al usuario ingresar un correo electrónico y verifica si coincide con el correo electrónico del usuario proporcionado.
      *

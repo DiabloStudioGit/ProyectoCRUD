@@ -1,7 +1,6 @@
 package menusBackend
 
 class InputsRegistro {
-
     /**
      * Solicita al usuario que introduzca su nombre y devuelve este nombre como una cadena de texto.
      *

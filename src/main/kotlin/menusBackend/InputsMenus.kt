@@ -2,13 +2,13 @@ package menusBackend
 
 class InputsMenus {
     /**
-     *
      * Solicita al usuario que introduzca un número que represente una opción del menú,
      * asegurándose de que el número esté dentro del rango [1 - numOpciones].
      *
      * @param numeroOpciones El número total de opciones disponibles en el menú.
      * @return El número de la opción seleccionada por el usuario.
      */
+
     fun seleccionarOpcionMenu(numeroOpciones: Int): Int {
         var opt: Int?
 
@@ -32,14 +32,3 @@ class InputsMenus {
         return true
     }
 }
-
-
-
-
-
-
-
-
-
-
-
