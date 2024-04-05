@@ -8,7 +8,6 @@ class InputsMenus {
      * @param numeroOpciones El número total de opciones disponibles en el menú.
      * @return El número de la opción seleccionada por el usuario.
      */
-
     fun seleccionarOpcionMenu(numeroOpciones: Int): Int {
         var opt: Int?
 

@@ -4,6 +4,11 @@ import juego.Historial
 
 class InputsJuego {
     companion object {
+        /**
+         * Solicita al usuario que introduzca un número entre 1 y 10, y lo devuelve una vez validado.
+         *
+         * @return El número introducido por el usuario.
+         */
         fun introducirNumero(): Int {
             var numero: Int?
 

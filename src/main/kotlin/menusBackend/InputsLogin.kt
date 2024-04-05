@@ -4,7 +4,9 @@ import usuario.Usuario
 
 class InputsLogin {
     /**
-     * Permite al usuario ingresar un correo electrónico y verifica si coincide con el correo electrónico del usuario proporcionado.
+     * Solicita al usuario que ingrese un correo electrónico y lo devuelve una vez que se ha ingresado.
+     *
+     * @return El correo electrónico ingresado por el usuario.
      */
     fun ingresoEmail(): String {
         var emailInput: String?
