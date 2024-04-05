@@ -29,11 +29,12 @@ class InputsRegistro {
      */
     fun introducirEmail(): String {
         var email: String?
+        val patronEmail = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$\n".toRegex()
 
         do {
             print("Introduce un email: ")
             email = readlnOrNull()
-            if (email == null) {
+            if (email == null || email.matches(patronEmail)) {
                 println("!ERROR!")
             }
         } while (email == null)
