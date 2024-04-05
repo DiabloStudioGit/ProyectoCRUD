@@ -5,19 +5,16 @@ import usuario.Usuario
 class InputsLogin {
     /**
      * Permite al usuario ingresar un correo electrónico y verifica si coincide con el correo electrónico del usuario proporcionado.
-     *
-     * @param usuario el objeto Usuario que contiene el correo electrónico.
      */
-    fun ingresoEmail(usuario: Usuario) {
+    fun ingresoEmail(): String {
         var emailInput: String?
 
         do {
             print("Ingrese el email: ")
             emailInput = readlnOrNull()
-            if (usuario.email != emailInput) {
-                println("!Email incorrecto!")
-            }
-        } while (usuario.email != emailInput)
+        } while (emailInput == null)
+
+        return emailInput
     }
 
     /**
