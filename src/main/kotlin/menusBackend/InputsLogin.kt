@@ -23,7 +23,7 @@ class InputsLogin {
      * Permite al usuario ingresar una contraseña y verifica si coincide con la contraseña del usuario proporcionado.
      *
      * @param usuario El objeto Usuario que contiene la contraseña.
-     * @return Valor booleano si la contraseña introducida coincide con la del usuario.
+     * @return Un valor booleano si la contraseña introducida coincide con la del usuario.
      */
     fun ingresoContrasenia(usuario: Usuario): Boolean {
         var contrasenia: String?
