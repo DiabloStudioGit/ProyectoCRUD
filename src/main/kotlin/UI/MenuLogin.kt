@@ -1,6 +1,7 @@
 package UI
 
 import gestion.GestionarUsuarios
+import juego.LogicaJuego
 import menusBackend.InputsLogin
 import menusBackend.InputsMenus
 import menusBackend.InputsRegistro
@@ -65,7 +66,6 @@ class MenuLogin {
     }
 
     fun pedirMenu() {
-        var opcion = 0
         println("Usuario Administrador")
         println("@======¿Que Desea Hacer?======@")
         println("|                             |")
@@ -77,12 +77,23 @@ class MenuLogin {
         when (InputsMenus.seleccionarOpcionMenu(2)) {
             1 -> {
                 // Aqui iría al juego
-                println("Juego")
+                juego()
             }
             2 -> {
                 // Aquí iria al menu Admin
                 println("Admin")
             }
         }
+    }
+
+    //Comprobar con marciano
+    fun menuAdmin(){
+
+    }
+
+    fun juego(){
+        val juego = LogicaJuego()
+
+
     }
 }
