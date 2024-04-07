@@ -23,16 +23,22 @@ class InputsLogin {
      * Permite al usuario ingresar una contraseña y verifica si coincide con la contraseña del usuario proporcionado.
      *
      * @param usuario El objeto Usuario que contiene la contraseña.
+     * @return Valor booleano si la contraseña introducida coincide con la del usuario.
      */
-    fun ingresoContrasenia(usuario: Usuario) {
+    fun ingresoContrasenia(usuario: Usuario): Boolean {
         var contrasenia: String?
+        var esCorrecta = false
 
         do {
             print("Introducir contraseña: ")
             contrasenia = readlnOrNull()
-            if (contrasenia != usuario.contrasenia) {
-                print("Por favor, introduce la contraseña correctamente: ")
+            if (contrasenia == usuario.contrasenia) {
+                esCorrecta = true
+            } else {
+                println("ERROR, contraseña incorrecta")
             }
         } while (contrasenia != usuario.contrasenia)
+
+        return esCorrecta
     }
 }
