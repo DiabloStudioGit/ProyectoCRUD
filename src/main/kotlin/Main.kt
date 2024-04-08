@@ -46,7 +46,7 @@ fun main() {
 fun juego(usuario: Usuario): Boolean{
     var eleccion = true
     val juego = LogicaJuego()
-    val historial = GestionarHistoriales()
+    var historial = GestionarHistoriales()
     var historialUsuario = historial.obtenerHistorial(usuario.email)
 
     if (historialUsuario == null) {
@@ -57,6 +57,8 @@ fun juego(usuario: Usuario): Boolean{
                 juego.hasAcaertado(historialUsuario, InputsJuego.introducirNumero())
             }
             2 -> {
+                //Vuelve a obtener el historial para resultados actualizados
+                historialUsuario = historial.obtenerHistorial(usuario.email)
                 println(historialUsuario)
             }
             3 -> {
