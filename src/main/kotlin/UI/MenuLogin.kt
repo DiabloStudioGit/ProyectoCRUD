@@ -36,7 +36,6 @@ class MenuLogin {
     }
 
     fun pedirAdmin(): Int {
-        var opcion = 0
 
         println("Usuario Administrador")
         println("@======¿Que Desea Hacer?======@")
@@ -46,42 +45,22 @@ class MenuLogin {
         println("|                             |")
         println("@=============================@")
 
-        when (InputsMenus.seleccionarOpcionMenu(2)) {
-            1 -> {
-                opcion = 1
-            }
-            2 -> {
-                opcion = 2
-            }
-        }
-        return opcion
+        return InputsMenus.seleccionarOpcionMenu(2)
     }
 
     companion object {
         fun menuJuego(usuario: Usuario): Int {
             var opcion = 0
-
+            println("Hola! [${usuario.nombre}]")
             println("@======¿Que Desea Hacer?======@")
             println("|                             |")
-            println("|   Hola [${usuario.nombre}]  |")
             println("|     [1]  Jugar              |")
             println("|       [2]  Puntuacion       |")
             println("|          [3]  Cerrar Sesion |")
             println("|                             |")
             println("@=============================@")
 
-            when (InputsMenus.seleccionarOpcionMenu(3)) {
-                1 -> {
-                    opcion = 1
-                }
-                2 -> {
-                    opcion = 2
-                }
-                3 -> {
-                    opcion = 3
-                }
-            }
-            return opcion
+            return InputsMenus.seleccionarOpcionMenu(3)
         }
     }
 }

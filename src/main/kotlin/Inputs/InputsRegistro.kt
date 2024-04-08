@@ -1,5 +1,7 @@
 package Inputs
 
+import Usuario.Roles
+
 class InputsRegistro {
     companion object {
         /**
@@ -98,6 +100,20 @@ class InputsRegistro {
             } while (contrasenia == null || contrasenia.length < 5)
 
             return contrasenia
+        }
+
+        fun introducirRol(): Roles {
+            var rol = Roles.ESTANDAR
+            println("Introduce un Rol para asignar")
+            println("@=============================@")
+            println("|   [1]  Administrador        |")
+            println("|   [2]  Estandar             |")
+            println("@=============================@")
+
+            when (InputsMenus.seleccionarOpcionMenu(2)) {
+                1 -> rol = Roles.ADMINISTRADOR
+            }
+            return rol
         }
     }
 }

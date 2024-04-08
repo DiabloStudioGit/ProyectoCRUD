@@ -32,7 +32,7 @@ fun main() {
                                 while (juego(usuario)){}
                             }
                             2 -> {
-                                //menuAdmin()
+                                while (menuAdmin()){}
                             }
                         }
                     } else {
@@ -68,4 +68,20 @@ fun juego(usuario: Usuario): Boolean{
         }
     }
     return eleccion
+}
+
+fun menuAdmin(): Boolean{
+    var opcion = true
+    val menuAdmin = MenuAdmin()
+
+    when (menuAdmin.mostrarMenu()) {
+        1 -> menuAdmin.anadirUsuario()
+        2 -> menuAdmin.mostrarUsuarios()
+        3 -> menuAdmin.buscarUsuario()
+        4 -> menuAdmin.borrarUsuario()
+        5 -> menuAdmin.modificarUsuario()
+        6 -> menuAdmin.cambiarPermisosUsuario()
+        7 -> opcion = false
+    }
+    return opcion
 }
