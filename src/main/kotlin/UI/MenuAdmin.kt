@@ -36,7 +36,7 @@ class MenuAdmin {
         println(gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail()))
     }
     fun borrarUsuario(){
-        var usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
+        val usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
         if (usuario == null) {
             println("[ERROR] Usuario no encontrado")
         } else {
@@ -44,11 +44,11 @@ class MenuAdmin {
         }
     }
     fun modificarUsuario(){
-        var usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
+        val usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
         if (usuario == null) {
             println("[ERROR] Usuario no encontrado")
         } else {
-            var modificaciones = usuario
+            val modificaciones = usuario
 
             println("Usuario seleccionado: ${usuario.nombre}")
             println("@====¿Qué Desea Modificar?====@")
@@ -75,7 +75,7 @@ class MenuAdmin {
         }
     }
     fun cambiarPermisosUsuario(){
-        var usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
+        val usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
         if (usuario == null) {
             println("[ERROR] Usuario no encontrado")
         } else {

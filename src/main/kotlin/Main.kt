@@ -17,13 +17,13 @@ fun main() {
         gestionarUsuarios.añadirUsuario(Usuario("Admin", "Root", 0, "admin@test.es", "12345", Roles.ADMINISTRADOR))
     }
 
-    var menuLogin = MenuLogin()
+    val menuLogin = MenuLogin()
     do {
         menuLogin.imprimirOpciones()
         val opcion = InputsMenus.seleccionarOpcionMenu(3)
         when (opcion) {
             1 -> {
-                var usuario = menuLogin.iniciarSesion()
+                val usuario = menuLogin.iniciarSesion()
                 if (usuario != null){
                     if (usuario.rol == Roles.ADMINISTRADOR) {
                         //Si el usuario es Administrador, pide a donde ir
@@ -52,8 +52,8 @@ fun main() {
 fun juego(usuario: Usuario): Boolean{
     var eleccion = true
     val juego = LogicaJuego()
-    var historial = GestionarHistoriales()
-    var historialUsuario = historial.obtenerHistorial(usuario.email)
+    val historial = GestionarHistoriales()
+    val historialUsuario = historial.obtenerHistorial(usuario.email)
 
     if (historialUsuario == null) {
         println("[ERROR] Historial no encontrado")

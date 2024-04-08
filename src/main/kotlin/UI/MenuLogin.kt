@@ -5,12 +5,10 @@ import Inputs.InputsLogin
 import Inputs.InputsMenus
 import Usuario.Usuario
 
-class MenuLogin {
+class MenuLogin() {
 
     val gestionarUsuarios : GestionarUsuarios = GestionarUsuarios()
     val inputsLogin = InputsLogin()
-
-    constructor()
 
     fun imprimirOpciones() {
         println("@======¿Que Desea Hacer?======@")
@@ -50,7 +48,6 @@ class MenuLogin {
 
     companion object {
         fun menuJuego(usuario: Usuario): Int {
-            var opcion = 0
             println("Hola! [${usuario.nombre}]")
             println("@======¿Que Desea Hacer?======@")
             println("|                             |")
