@@ -1,13 +1,11 @@
 package UI
 
 import gestion.GestionarUsuarios
-import juego.LogicaJuego
 import menusBackend.InputsLogin
 import menusBackend.InputsMenus
 import menusBackend.InputsRegistro
 import usuario.Roles
 import usuario.Usuario
-import kotlin.system.exitProcess
 
 class MenuLogin {
 
@@ -26,30 +24,21 @@ class MenuLogin {
         println("@=============================@")
     }
 
-    fun pedirAccion(): Boolean {
-        var exit = false
+    fun pedirAccion(): Int {
+        var opcion = 0
 
         when (InputsMenus.seleccionarOpcionMenu(3)) {
             1 -> {
-                var usuario = iniciarSesion()
-                if (usuario != null){
-                    if (usuario.rol == Roles.ADMINISTRADOR) {
-                        //Si el usuario es Administrador, pide a donde ir
-                        pedirMenu()
-                    } else {
-                        //Si el usuario es estandar, ir al juego
-
-                    }
-                }
+                opcion = 1
             }
             2 -> {
-                gestionarUsuarios.añadirUsuario(Usuario(InputsRegistro.introducirNombre(), InputsRegistro.introducirApellidos(), InputsRegistro.introducirEdad(), InputsRegistro.introducirEmail(), InputsRegistro.introducirContrasenia(), Roles.ESTANDAR))
+                opcion = 2
             }
             3 -> {
-                exit = InputsMenus.salirMenu()
+                opcion = 3
             }
         }
-        return exit
+        return opcion
     }
 
     fun iniciarSesion() : Usuario? {
@@ -65,7 +54,9 @@ class MenuLogin {
         return usuario
     }
 
-    fun pedirMenu() {
+    fun pedirAdmin(): Int {
+        var opcion = 0
+
         println("Usuario Administrador")
         println("@======¿Que Desea Hacer?======@")
         println("|                             |")
@@ -76,24 +67,40 @@ class MenuLogin {
 
         when (InputsMenus.seleccionarOpcionMenu(2)) {
             1 -> {
-                // Aqui iría al juego
-                juego()
+                opcion = 1
             }
             2 -> {
-                // Aquí iria al menu Admin
-                println("Admin")
+                opcion = 2
             }
         }
+        return opcion
     }
 
-    //Comprobar con marciano
-    fun menuAdmin(){
+    companion object {
+        fun menuJuego(usuario: Usuario): Int {
+            var opcion = 0
 
-    }
+            println("@======¿Que Desea Hacer?======@")
+            println("|                             |")
+            println("|   Hola [${usuario.nombre}]  |")
+            println("|     [1]  Jugar              |")
+            println("|       [2]  Puntuacion       |")
+            println("|          [3]  Cerrar Sesion |")
+            println("|                             |")
+            println("@=============================@")
 
-    fun juego(){
-        val juego = LogicaJuego()
-
-
+            when (InputsMenus.seleccionarOpcionMenu(3)) {
+                1 -> {
+                    opcion = 1
+                }
+                2 -> {
+                    opcion = 2
+                }
+                3 -> {
+                    opcion = 3
+                }
+            }
+            return opcion
+        }
     }
 }

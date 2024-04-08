@@ -1,5 +1,6 @@
 package gestion
 
+import juego.Historial
 import usuario.Roles
 import usuario.Usuario
 import java.io.File
@@ -26,8 +27,11 @@ class GestionarUsuarios {
      * @param usuario Usuario a añadir
      */
     fun añadirUsuario(usuario : Usuario) {
+        var gestionarHistorial = GestionarHistoriales()
+        var historial = Historial(usuario.email, 0, 0, 0)
         this.usuarios.add(usuario)
         this.guardarUsuarios()
+        gestionarHistorial.añadirHistorial(historial)
         println("Usuario \"${usuario.nombre}\" creado correctamente.")
     }
 
