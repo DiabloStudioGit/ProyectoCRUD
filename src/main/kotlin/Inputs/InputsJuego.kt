@@ -11,14 +11,16 @@ class InputsJuego {
             var numero: Int?
 
             do {
-                print("Introduce número a ver si aciertas: ")
+                var valido = true
+                print("Introduce un número del 1 al 10 a ver si aciertas: ")
                 numero = readln().toIntOrNull()
-                if (numero == null || numero < 1 || numero > 10) {
+                if (numero == null || numero !in 1..10) {
                     println("!ERROR!")
+                    valido = false
                 }
-            } while (numero == null || numero < 1 || numero > 10)
+            } while (!valido)
 
-            return numero
+            return numero!!
         }
     }
 }

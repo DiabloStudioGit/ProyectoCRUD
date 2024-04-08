@@ -15,14 +15,16 @@ class InputsRegistro {
             var nombre: String?
 
             do {
+                var valido = true
                 print("Introduce tu nombre: ")
                 nombre = readlnOrNull()
-                if (nombre == null) {
+                if (nombre.isNullOrBlank()) {
                     println("!ERROR!")
+                    valido = false
                 }
-            } while (nombre == null)
+            } while (!valido)
 
-            return nombre
+            return nombre!!
         }
 
         /**
@@ -32,17 +34,19 @@ class InputsRegistro {
          */
         fun introducirEmail(): String {
             var email: String?
-            val patronEmail = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$\n".toRegex()
+            val patronEmail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})\$".toRegex()
 
             do {
+                var valido = true
                 print("Introduce un email: ")
                 email = readlnOrNull()
-                if (email == null || email.matches(patronEmail)) {
+                if (email == null || !patronEmail.matches(email)) {
                     println("!ERROR!")
+                    valido = false
                 }
-            } while (email == null)
+            } while (!valido)
 
-            return email
+            return email!!
         }
 
         /**
@@ -54,14 +58,16 @@ class InputsRegistro {
             var apellido: String?
 
             do {
+                var valido = true
                 print("Introduce tus apellidos: ")
                 apellido = readlnOrNull()
-                if (apellido == null) {
+                if (apellido.isNullOrBlank()) {
                     println("!ERROR!")
+                    valido = false
                 }
-            } while (apellido == null)
+            } while (!valido)
 
-            return apellido
+            return apellido!!
         }
 
         /**
@@ -73,14 +79,16 @@ class InputsRegistro {
             var edad: Int?
 
             do {
+                var valido = true
                 print("Introduce tu edad: ")
                 edad = readln().toIntOrNull()
-                if (edad == null || edad < 0 || edad > 150) {
+                if (edad == null || edad !in 12..150) {
                     println("!ERROR!")
+                    valido = false
                 }
-            } while (edad == null || edad < 0 || edad > 150)
+            } while (!valido)
 
-            return edad
+            return edad!!
         }
 
         /**
@@ -92,22 +100,24 @@ class InputsRegistro {
             var contrasenia: String?
 
             do {
+                var valido = true
                 print("Contraseña [5 dígitos mínimos]: ")
                 contrasenia = readlnOrNull()
-                if (contrasenia == null || contrasenia.length < 5) {
+                if (contrasenia.isNullOrBlank() || contrasenia.length < 5) {
                     println("!ERROR!")
+                    valido = false
                 }
-            } while (contrasenia == null || contrasenia.length < 5)
+            } while (!valido)
 
-            return contrasenia
+            return contrasenia!!
         }
 
         fun introducirRol(): Roles {
             var rol = Roles.ESTANDAR
             println("Introduce un Rol para asignar")
             println("@=============================@")
-            println("|   [1]  Administrador        |")
-            println("|   [2]  Estandar             |")
+            println("|     [1]  Administrador      |")
+            println("|       [2]  Estandar         |")
             println("@=============================@")
 
             when (InputsMenus.seleccionarOpcionMenu(2)) {

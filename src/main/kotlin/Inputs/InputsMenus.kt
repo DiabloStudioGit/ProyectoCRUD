@@ -13,14 +13,16 @@ class InputsMenus {
             var opt: Int?
 
             do {
+                var valido = true
                 print("Introduce una opción [1-$numeroOpciones]: ")
                 opt = readln().toIntOrNull()
-                if (opt == null || opt < 1 || opt > numeroOpciones) {
+                if (opt == null || opt !in 1.. numeroOpciones) {
                     println("!ERROR!")
+                    valido = false
                 }
-            } while (opt == null || opt < 1 || opt > numeroOpciones)
+            } while (!valido)
 
-            return opt
+            return opt!!
         }
 
         /**

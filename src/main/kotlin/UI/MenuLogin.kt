@@ -5,10 +5,14 @@ import Inputs.InputsLogin
 import Inputs.InputsMenus
 import Usuario.Usuario
 
-class MenuLogin() {
+class MenuLogin {
 
-    val gestionarUsuarios : GestionarUsuarios = GestionarUsuarios()
+    val gestionarUsuarios : GestionarUsuarios
     val inputsLogin = InputsLogin()
+
+    constructor(gestor : GestionarUsuarios) {
+        this.gestionarUsuarios = gestor
+    }
 
     fun imprimirOpciones() {
         println("@======¿Que Desea Hacer?======@")
@@ -38,8 +42,8 @@ class MenuLogin() {
         println("Usuario Administrador")
         println("@======¿Que Desea Hacer?======@")
         println("|                             |")
-        println("|     [1]  Jugar              |")
-        println("|       [2]  Administracion   |")
+        println("|         [1]  Jugar          |")
+        println("|     [2]  Administracion     |")
         println("|                             |")
         println("@=============================@")
 
@@ -47,17 +51,6 @@ class MenuLogin() {
     }
 
     companion object {
-        fun menuJuego(usuario: Usuario): Int {
-            println("Hola! [${usuario.nombre}]")
-            println("@======¿Que Desea Hacer?======@")
-            println("|                             |")
-            println("|     [1]  Jugar              |")
-            println("|       [2]  Puntuacion       |")
-            println("|          [3]  Cerrar Sesion |")
-            println("|                             |")
-            println("@=============================@")
 
-            return InputsMenus.seleccionarOpcionMenu(3)
-        }
     }
 }

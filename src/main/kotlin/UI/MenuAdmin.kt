@@ -1,12 +1,18 @@
 package UI
 
+import Gestion.GestionarHistoriales
 import Gestion.GestionarUsuarios
+import Inputs.InputsLogin
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
 import Usuario.Usuario
 
 class MenuAdmin {
-    var gestUsuarios = GestionarUsuarios()
+    val gestUsuarios : GestionarUsuarios
+
+    constructor(gestor : GestionarUsuarios) {
+        this.gestUsuarios = gestor
+    }
 
     fun mostrarMenu(): Int {
 
@@ -23,6 +29,21 @@ class MenuAdmin {
         println("@=============================@")
 
         return InputsMenus.seleccionarOpcionMenu(7)
+    }
+
+    fun menuAdmin(): Boolean{
+        var opcion = true
+
+        when (mostrarMenu()) {
+            1 -> anadirUsuario()
+            2 -> mostrarUsuarios()
+            3 -> buscarUsuario()
+            4 -> borrarUsuario()
+            5 -> modificarUsuario()
+            6 -> cambiarPermisosUsuario()
+            7 -> opcion = false
+        }
+        return opcion
     }
 
     fun anadirUsuario(){
@@ -65,7 +86,15 @@ class MenuAdmin {
                 1 -> modificaciones.nombre = InputsRegistro.introducirNombre()
                 2 -> modificaciones.apellido = InputsRegistro.introducirApellidos()
                 3 -> modificaciones.edad = InputsRegistro.introducirEdad()
-                4 -> modificaciones.email = InputsRegistro.introducirEmail()
+                4 -> {
+                    val emailNuevo = InputsRegistro.introducirEmail()
+                    val gestionarHistorial = GestionarHistoriales()
+                    val historial = gestionarHistorial.obtenerHistorial(modificaciones.email)
+                    val historialNuevo = historial
+                    historialNuevo!!.emailJugador = emailNuevo
+                    gestionarHistorial.modificarHistorial(historial, historialNuevo, true)
+                    modificaciones.email = emailNuevo
+                }
                 5 -> modificaciones.contrasenia = InputsRegistro.introducirContrasenia()
                 6 -> {}
             }
