@@ -1,6 +1,4 @@
-package menusBackend
-
-import juego.Historial
+package Inputs
 
 class InputsJuego {
     companion object {

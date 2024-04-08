@@ -1,20 +1,26 @@
 import UI.MenuLogin
-import gestion.GestionarHistoriales
-import gestion.GestionarUsuarios
-import gestion.MenuAdmin
-import juego.LogicaJuego
-import menusBackend.InputsJuego
-import menusBackend.InputsRegistro
-import usuario.Roles
-import usuario.Usuario
+import Gestion.GestionarHistoriales
+import Gestion.GestionarUsuarios
+import Juego.LogicaJuego
+import Inputs.InputsJuego
+import Inputs.InputsMenus
+import Inputs.InputsRegistro
+import UI.MenuAdmin
+import Usuario.Roles
+import Usuario.Usuario
 
 fun main() {
     val gestionarUsuarios = GestionarUsuarios()
 
+    //Añade un administrador para Debug
+    if (gestionarUsuarios.obtenerUsuario("admin@test.es") == null) {
+        gestionarUsuarios.añadirUsuario(Usuario("Admin", "Root", 0, "admin@test.es", "12345", Roles.ADMINISTRADOR))
+    }
+
     var menuLogin = MenuLogin()
     do {
         menuLogin.imprimirOpciones()
-        val opcion = menuLogin.pedirAccion()
+        val opcion = InputsMenus.seleccionarOpcionMenu(3)
         when (opcion) {
             1 -> {
                 var usuario = menuLogin.iniciarSesion()
@@ -26,7 +32,7 @@ fun main() {
                                 while (juego(usuario)){}
                             }
                             2 -> {
-                                menuAdmin()
+                                //menuAdmin()
                             }
                         }
                     } else {
@@ -53,25 +59,13 @@ fun juego(usuario: Usuario): Boolean{
         println("[ERROR] Historial no encontrado")
     } else {
         when (MenuLogin.menuJuego(usuario)) {
-            1 -> {
-                juego.hasAcaertado(historialUsuario, InputsJuego.introducirNumero())
-            }
+            1 -> historial.modificarHistorial(historialUsuario, juego.hasAcertado(historialUsuario, InputsJuego.introducirNumero()), false)
             2 -> {
-                //Vuelve a obtener el historial para resultados actualizados
-                historialUsuario = historial.obtenerHistorial(usuario.email)
                 println(historialUsuario)
+                println("Porcentaje de Victorias: ${juego.calculoPorcentajeVictorias(historialUsuario)}%")
             }
-            3 -> {
-                eleccion = false
-            }
+            3 -> eleccion = false
         }
     }
     return eleccion
-}
-
-fun menuAdmin(){
-    val menu = MenuAdmin()
-    println("Administrando")
-
-
 }

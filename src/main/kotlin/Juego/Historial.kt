@@ -1,4 +1,4 @@
-package juego
+package Juego
 
 import java.io.Serializable
 data class Historial(var emailJugador : String, var partidasJugadas : Int, var partidasGanadas : Int, var puntos : Int): Serializable {

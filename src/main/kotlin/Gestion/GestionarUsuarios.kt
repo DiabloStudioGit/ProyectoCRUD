@@ -1,8 +1,8 @@
-package gestion
+package Gestion
 
-import juego.Historial
-import usuario.Roles
-import usuario.Usuario
+import Juego.Historial
+import Usuario.Roles
+import Usuario.Usuario
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

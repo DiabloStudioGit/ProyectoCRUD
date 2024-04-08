@@ -1,4 +1,4 @@
-package usuario
+package Usuario
 
 import java.io.Serializable
 

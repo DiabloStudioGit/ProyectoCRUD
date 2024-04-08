@@ -1,7 +1,7 @@
-package gestion
+package Gestion
 
-import juego.Historial
-import usuario.Usuario
+import Juego.Historial
+import Usuario.Usuario
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -95,8 +95,9 @@ class GestionarHistoriales {
      *
      * @param historialOriginal Historial a modificar.
      * @param datosNuevos Plantilla de historial con los datos nuevos.
+     * @param esAdmin En caso de ser verdadero muestra mensaje de Exito
      */
-    fun modificarHistorial(historialOriginal : Historial, datosNuevos : Historial) {
+    fun modificarHistorial(historialOriginal : Historial, datosNuevos : Historial, esAdmin : Boolean) {
         var exito = false
         for (i in this.historiales.indices) {
             if (this.historiales[i] == historialOriginal) {
@@ -105,10 +106,14 @@ class GestionarHistoriales {
             }
         }
 
-        if (exito) {
+        if (exito && esAdmin) {
             this.guardarHistoriales()
             println("Se ha modificado el historial correctamente.")
-        }else {
+        }else if (exito && !esAdmin) {
+            this.guardarHistoriales()
+        } else if (!esAdmin) {
+            println("[ERROR] No se ha podido guardar la Puntuacion.")
+        } else {
             println("No se ha encontrado el historial.")
         }
     }

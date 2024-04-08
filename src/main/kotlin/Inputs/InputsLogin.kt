@@ -1,6 +1,6 @@
-package menusBackend
+package Inputs
 
-import usuario.Usuario
+import Usuario.Usuario
 
 class InputsLogin {
     /**

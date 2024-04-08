@@ -1,4 +1,4 @@
-package menusBackend
+package Inputs
 
 class InputsRegistro {
     companion object {

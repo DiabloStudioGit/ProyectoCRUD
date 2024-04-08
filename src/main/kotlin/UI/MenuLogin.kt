@@ -1,11 +1,9 @@
 package UI
 
-import gestion.GestionarUsuarios
-import menusBackend.InputsLogin
-import menusBackend.InputsMenus
-import menusBackend.InputsRegistro
-import usuario.Roles
-import usuario.Usuario
+import Gestion.GestionarUsuarios
+import Inputs.InputsLogin
+import Inputs.InputsMenus
+import Usuario.Usuario
 
 class MenuLogin {
 
@@ -22,23 +20,6 @@ class MenuLogin {
         println("|          [3]  Salir         |")
         println("|                             |")
         println("@=============================@")
-    }
-
-    fun pedirAccion(): Int {
-        var opcion = 0
-
-        when (InputsMenus.seleccionarOpcionMenu(3)) {
-            1 -> {
-                opcion = 1
-            }
-            2 -> {
-                opcion = 2
-            }
-            3 -> {
-                opcion = 3
-            }
-        }
-        return opcion
     }
 
     fun iniciarSesion() : Usuario? {

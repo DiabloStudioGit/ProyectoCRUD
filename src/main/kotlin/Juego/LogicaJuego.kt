@@ -1,4 +1,5 @@
-package juego
+package Juego
+
 
 class LogicaJuego {
     /**
@@ -16,7 +17,7 @@ class LogicaJuego {
      * @param historial Objeto de tipo Historial que almacena el registro de las partidas.
      * @param numeroJugador El número elegido por el jugador.
      */
-    fun hasAcaertado(historial: Historial, numeroJugador: Int) {
+    fun hasAcertado(historial: Historial, numeroJugador: Int): Historial {
         if (numeroJugador == crearNumeroAleatorio()) {
             println("!Has acertado!")
             historial.partidasGanadas++
@@ -25,6 +26,7 @@ class LogicaJuego {
             println("No has hacertado :(")
             historial.partidasJugadas++
         }
+        return historial
     }
 
     /**
