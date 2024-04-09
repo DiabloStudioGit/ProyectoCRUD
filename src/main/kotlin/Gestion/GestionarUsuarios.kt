@@ -14,6 +14,8 @@ class GestionarUsuarios {
     private val FICHERO_USUARIOS = "usuarios.dat"
     private var usuarios : ArrayList<Usuario>
 
+    var bd = GestionarBaseDatos()
+
     /**
      * Constructor para inicializar los usuarios.
      */
@@ -138,6 +140,8 @@ class GestionarUsuarios {
      */
     private fun obtenerUsuarios() : ArrayList<Usuario> {
         var usuariosExistentes = arrayListOf<Usuario>()
+
+
         val fichero = File(FICHERO_USUARIOS)
         if (fichero.exists()) {
             var objectInputStream : ObjectInputStream? = null
