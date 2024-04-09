@@ -41,9 +41,7 @@ fun main() {
                         }
                     } else {
                         //Si el usuario es Estandar, va al juego
-                        do {
-                            val continuar = menuJuego.juego()
-                        }while (continuar)
+                        menuJuego.juego()
                     }
                 }
             }

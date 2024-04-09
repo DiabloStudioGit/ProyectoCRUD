@@ -15,24 +15,25 @@ class MenuJuego {
         this.usuario = usuario
         this.historial = gestor.obtenerHistorial(usuario.email)
     }
-    fun juego(): Boolean{
+    fun juego() {
         var eleccion = true
         val juego = LogicaJuego()
 
-        if (historial == null) {
-            println("[ERROR] Historial no encontrado")
-            eleccion = false
-        } else {
-            when (menuJuego()) {
-                1 -> gestor.modificarHistorial(historial, juego.hasAcertado(historial, InputsJuego.introducirNumero()), false)
-                2 -> {
-                    println(historial)
-                    println("Porcentaje de Victorias: ${juego.calculoPorcentajeVictorias(historial)}%")
+        while (eleccion) {
+            if (historial == null) {
+                println("[ERROR] Historial no encontrado")
+                eleccion = false
+            } else {
+                when (menuJuego()) {
+                    1 -> gestor.modificarHistorial(historial, juego.hasAcertado(historial, InputsJuego.introducirNumero()), false)
+                    2 -> {
+                        println(historial)
+                        println("Porcentaje de Victorias: ${juego.calculoPorcentajeVictorias(historial)}%")
+                    }
+                    3 -> eleccion = false
                 }
-                3 -> eleccion = false
             }
         }
-        return eleccion
     }
 
     fun menuJuego(): Int {
