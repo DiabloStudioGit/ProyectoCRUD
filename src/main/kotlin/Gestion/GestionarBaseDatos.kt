@@ -1,5 +1,6 @@
 package Gestion
 
+import DatosBD
 import Juego.Historial
 import Usuario.Roles
 import Usuario.Usuario
@@ -7,7 +8,8 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
-class GestionarBaseDatos {
+
+class GestionarBaseDatos: DatosBD {
 
 
     fun conectarBD(): Connection?{

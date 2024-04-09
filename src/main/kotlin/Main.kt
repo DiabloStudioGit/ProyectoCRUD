@@ -2,10 +2,12 @@ import UI.MenuLogin
 import Gestion.GestionarUsuarios
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
+import Juego.Historial
 import UI.MenuAdmin
 import UI.MenuJuego
 import Usuario.Roles
 import Usuario.Usuario
+import java.sql.Connection
 
 fun main() {
     val gestionarUsuarios = GestionarUsuarios()
