@@ -1,16 +1,16 @@
 package UI
 
-import Gestion.GestionarUsuarios
+import Gestion.IGestorUsuarios
 import Inputs.InputsLogin
 import Inputs.InputsMenus
 import Usuario.Usuario
 
 class MenuLogin {
 
-    val gestionarUsuarios : GestionarUsuarios
+    val gestionarUsuarios : IGestorUsuarios
     val inputsLogin = InputsLogin()
 
-    constructor(gestor : GestionarUsuarios) {
+    constructor(gestor : IGestorUsuarios) {
         this.gestionarUsuarios = gestor
     }
 

@@ -1,6 +1,7 @@
-package Gestion
+package Gestion.BaseDeDatos
 
-import DatosBD
+import Gestion.IGestorHistoriales
+import Gestion.IGestorUsuarios
 import Juego.Historial
 import Usuario.Roles
 import Usuario.Usuario
@@ -9,23 +10,27 @@ import java.sql.DriverManager
 import java.sql.SQLException
 
 
-class GestionarBaseDatos: DatosBD {
+class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
+    private val connection : Connection
 
-
-    fun conectarBD(): Connection?{
+    constructor() {
         val bduser = "root"
         val bdpasswd = ""
         val bdurl = "jdbc:mysql://localhost:3306/crud"
 
-        return try {
-            DriverManager.getConnection(bdurl, bduser, bdpasswd)
-        } catch (e: SQLException) {
-            println("[ERROR] Al conectar a base de datos: ${e.message}")
-            null
-        }
+        this.connection = DriverManager.getConnection(bdurl, bduser, bdpasswd)
     }
 
-    fun obtenerUsuario(email: String, connection: Connection): Usuario? {
+    //USUARIOS
+    override fun añadirUsuario(usuario : Usuario) {
+        TODO("Not yet implemented")
+    }
+
+    override fun borrarUsuario(usuario: Usuario) {
+        TODO("Not yet implemented")
+    }
+
+    override fun obtenerUsuario(email : String) : Usuario? {
         val statement = connection.prepareStatement("SELECT * FROM usuarios WHERE email = ?")
         statement.setString(1, email)
         val resultSet = statement.executeQuery()
@@ -57,7 +62,37 @@ class GestionarBaseDatos: DatosBD {
         return usuario
     }
 
-    fun obtenerHistorial(email: String, connection: Connection): Historial? {
+    override fun modificarPermisos(usuario : Usuario, rol : Roles) {
+        TODO("Not yet implemented")
+    }
+
+    override fun modificarUsuario(usuarioOriginal : Usuario, datosNuevos : Usuario) {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarUsuarios() {
+        TODO("Not yet implemented")
+    }
+
+    override fun obtenerUsuarios(): ArrayList<Usuario> {
+        TODO("Not yet implemented")
+    }
+
+
+    //HISTORIALES
+    override fun añadirHistorial(historial: Historial) {
+        TODO("Not yet implemented")
+    }
+
+    override fun borrarHistorial(historial: Historial) {
+        TODO("Not yet implemented")
+    }
+
+    override fun obtenerHistorial(usuario: Usuario): Historial? {
+        TODO("Not yet implemented")
+    }
+
+    override fun obtenerHistorial(email: String): Historial? {
         val sql = "SELECT * FROM historial WHERE email = ?"
         val statement = connection.prepareStatement(sql)
         statement.setString(1, email)
@@ -83,10 +118,11 @@ class GestionarBaseDatos: DatosBD {
         return historial
     }
 
+    override fun modificarHistorial(historialOriginal: Historial, datosNuevos: Historial, esAdmin: Boolean) {
+        TODO("Not yet implemented")
+    }
 
-
-
-
-
-
+    override fun obtenerHistoriales(): ArrayList<Historial> {
+        TODO("Not yet implemented")
+    }
 }

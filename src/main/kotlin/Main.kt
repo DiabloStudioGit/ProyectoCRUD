@@ -1,16 +1,34 @@
+import Gestion.BaseDeDatos.GestionarBaseDatos
 import UI.MenuLogin
-import Gestion.GestionarUsuarios
+import Gestion.Fichero.GestionarUsuarios
+import Gestion.IGestorUsuarios
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
-import Juego.Historial
 import UI.MenuAdmin
 import UI.MenuJuego
 import Usuario.Roles
 import Usuario.Usuario
-import java.sql.Connection
+import java.sql.SQLException
 
 fun main() {
-    val gestionarUsuarios = GestionarUsuarios()
+    var gestionarUsuarios : IGestorUsuarios
+    //Imprimir eleccion entre bbdd o fichero
+
+    val gestor = InputsMenus.seleccionarOpcionMenu(2)
+    when (gestor) {
+        1 -> {
+            println("Se va a proceder con el sistema de ficheros.")
+            gestionarUsuarios = GestionarUsuarios()
+        }
+        else -> {
+            try{
+                gestionarUsuarios = GestionarBaseDatos()
+            }catch (ex : SQLException) {
+                println("[ERROR] No se ha podido conectar con la base de datos, se va a proceder con el sistema de ficheros.")
+                gestionarUsuarios = GestionarUsuarios()
+            }
+        }
+    }
 
     //Añade un administrador para Debug
     if (gestionarUsuarios.obtenerUsuario("admin@test.es") == null) {

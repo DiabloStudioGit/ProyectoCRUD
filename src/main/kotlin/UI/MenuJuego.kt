@@ -1,6 +1,6 @@
 package UI
 
-import Gestion.GestionarHistoriales
+import Gestion.Fichero.GestionarHistoriales
 import Inputs.InputsJuego
 import Inputs.InputsMenus
 import Juego.Historial

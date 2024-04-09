@@ -1,5 +1,7 @@
-package Gestion
+package Gestion.Fichero
 
+import Gestion.BaseDeDatos.GestionarBaseDatos
+import Gestion.IGestorUsuarios
 import Juego.Historial
 import Usuario.Roles
 import Usuario.Usuario
@@ -10,7 +12,7 @@ import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.io.StreamCorruptedException
 
-class GestionarUsuarios {
+class GestionarUsuarios : IGestorUsuarios {
     private val FICHERO_USUARIOS = "usuarios.dat"
     private var usuarios : ArrayList<Usuario>
 
@@ -28,7 +30,7 @@ class GestionarUsuarios {
      *
      * @param usuario Usuario a añadir
      */
-    fun añadirUsuario(usuario : Usuario) {
+    override fun añadirUsuario(usuario : Usuario) {
         var gestionarHistorial = GestionarHistoriales()
         var historial = Historial(usuario.email, 0, 0, 0)
         this.usuarios.add(usuario)
@@ -42,7 +44,7 @@ class GestionarUsuarios {
      *
      * @param usuario Usuario a eliminar.
      */
-    fun borrarUsuario(usuario : Usuario) {
+    override fun borrarUsuario(usuario : Usuario) {
         if (this.usuarios.contains(usuario)) {
             this.usuarios.remove(usuario)
             this.guardarUsuarios()
@@ -58,7 +60,7 @@ class GestionarUsuarios {
      * @param email Email a buscar entre los usuarios.
      * @return El usuario en caso de encontrarlo o null en caso opuesto.
      */
-    fun obtenerUsuario(email : String) : Usuario? {
+    override fun obtenerUsuario(email : String) : Usuario? {
         var usuarioBuscado : Usuario? = null
 
         for (usuario in this.usuarios) {
@@ -79,7 +81,7 @@ class GestionarUsuarios {
      *
      * @param usuario Usuario a añadir
      */
-    fun modificarPermisos(usuario : Usuario, rol : Roles) {
+    override fun modificarPermisos(usuario : Usuario, rol : Roles) {
         var exito = false
         for (i in this.usuarios.indices) {
             if (this.usuarios[i] == usuario) {
@@ -102,7 +104,7 @@ class GestionarUsuarios {
      * @param usuarioOriginal Usuario a modificar.
      * @param datosNuevos Plantilla de usuario con los datos nuevos.
      */
-    fun modificarUsuario(usuarioOriginal : Usuario, datosNuevos : Usuario) {
+    override fun modificarUsuario(usuarioOriginal : Usuario, datosNuevos : Usuario) {
         var exito = false
         for (i in this.usuarios.indices) {
             if (this.usuarios[i] == usuarioOriginal) {
@@ -122,7 +124,7 @@ class GestionarUsuarios {
     /**
      * Imprime en pantalla la informacion de todos los usuarios.
      */
-    fun mostrarUsuarios() {
+    override fun mostrarUsuarios() {
         if (this.usuarios.isNotEmpty()) {
             var index = 0
             for (usuario in this.usuarios) {
@@ -138,7 +140,7 @@ class GestionarUsuarios {
      *
      * @return Devuelve la lista de usuarios.
      */
-    private fun obtenerUsuarios() : ArrayList<Usuario> {
+    override fun obtenerUsuarios() : ArrayList<Usuario> {
         var usuariosExistentes = arrayListOf<Usuario>()
 
 

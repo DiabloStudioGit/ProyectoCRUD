@@ -1,16 +1,15 @@
 package UI
 
-import Gestion.GestionarHistoriales
-import Gestion.GestionarUsuarios
-import Inputs.InputsLogin
+import Gestion.Fichero.GestionarHistoriales
+import Gestion.IGestorUsuarios
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
 import Usuario.Usuario
 
 class MenuAdmin {
-    val gestUsuarios : GestionarUsuarios
+    val gestUsuarios : IGestorUsuarios
 
-    constructor(gestor : GestionarUsuarios) {
+    constructor(gestor : IGestorUsuarios) {
         this.gestUsuarios = gestor
     }
 

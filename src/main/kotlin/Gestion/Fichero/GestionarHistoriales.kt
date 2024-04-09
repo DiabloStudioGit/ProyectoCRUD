@@ -1,5 +1,6 @@
-package Gestion
+package Gestion.Fichero
 
+import Gestion.IGestorHistoriales
 import Juego.Historial
 import Usuario.Usuario
 import java.io.File
@@ -9,7 +10,7 @@ import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.io.StreamCorruptedException
 
-class GestionarHistoriales {
+class GestionarHistoriales : IGestorHistoriales {
     private val FICHERO_HISTORIALES = "historiales.dat"
     private var historiales : ArrayList<Historial>
 
@@ -25,7 +26,7 @@ class GestionarHistoriales {
      *
      * @param historial Historial a añadir
      */
-    fun añadirHistorial(historial : Historial) {
+    override fun añadirHistorial(historial : Historial) {
         this.historiales.add(historial)
         this.guardarHistoriales()
         println("Historial creado correctamente.")
@@ -36,7 +37,7 @@ class GestionarHistoriales {
      *
      * @param historial Historial a eliminar.
      */
-    fun borrarHistorial(historial : Historial) {
+    override fun borrarHistorial(historial : Historial) {
         if (this.historiales.contains(historial)) {
             this.historiales.remove(historial)
             this.guardarHistoriales()
@@ -52,7 +53,7 @@ class GestionarHistoriales {
      * @param usuario Usuario a buscar entre los historailes.
      * @return El historial en caso de encontrarlo o null en caso opuesto.
      */
-    fun obtenerHistorial(usuario : Usuario) : Historial? {
+    override fun obtenerHistorial(usuario : Usuario) : Historial? {
         var historialBuscado : Historial? = null
 
         for (historial in this.historiales) {
@@ -74,7 +75,7 @@ class GestionarHistoriales {
      * @param email Email a buscar entre los historailes.
      * @return El historial en caso de encontrarlo o null en caso opuesto.
      */
-    fun obtenerHistorial(email : String) : Historial? {
+    override fun obtenerHistorial(email : String) : Historial? {
         var historialBuscado : Historial? = null
 
         for (historial in this.historiales) {
@@ -97,7 +98,7 @@ class GestionarHistoriales {
      * @param datosNuevos Plantilla de historial con los datos nuevos.
      * @param esAdmin En caso de ser verdadero muestra mensaje de Exito
      */
-    fun modificarHistorial(historialOriginal : Historial, datosNuevos : Historial, esAdmin : Boolean) {
+    override fun modificarHistorial(historialOriginal : Historial, datosNuevos : Historial, esAdmin : Boolean) {
         var exito = false
         for (i in this.historiales.indices) {
             if (this.historiales[i] == historialOriginal) {
@@ -123,7 +124,7 @@ class GestionarHistoriales {
      *
      * @return Devuelve la lista de historiales.
      */
-    private fun obtenerHistoriales() : ArrayList<Historial> {
+    override fun obtenerHistoriales() : ArrayList<Historial> {
         var historialesExistentes = ArrayList<Historial>()
         val fichero = File(FICHERO_HISTORIALES)
         if (fichero.exists()) {
