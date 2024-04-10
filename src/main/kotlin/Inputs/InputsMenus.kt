@@ -19,7 +19,8 @@ class InputsMenus {
                 print("Introduce una opción " + MenuColores.set("[1-$numeroOpciones]", MenuColores.magenta) + ": ")
                 opt = readln().toIntOrNull()
                 if (opt == null || opt !in 1.. numeroOpciones) {
-                    println("!ERROR!")
+                    println(MenuColores.set(MenuColores.error() + "!La opción $opt no existe "))
+                    println(MenuColores.set("Suegerencia: Prueba a introducir un numero entre el rango ", MenuColores.azul) + MenuColores.set("[1-$numeroOpciones]", MenuColores.cian))
                     valido = false
                 }
             } while (!valido)

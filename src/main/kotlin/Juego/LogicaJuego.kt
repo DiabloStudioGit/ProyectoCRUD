@@ -37,7 +37,7 @@ class LogicaJuego {
      */
     fun calculoPorcentajeVictorias(historial: Historial): Double {
         return if(historial.partidasJugadas != 0) {
-            ((historial.partidasGanadas / historial.partidasJugadas) * 100).toDouble()
+            ((historial.partidasGanadas.toDouble() / historial.partidasJugadas.toDouble()) * 100)
         } else {
             0.0
         }
