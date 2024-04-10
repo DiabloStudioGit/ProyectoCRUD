@@ -1,6 +1,8 @@
 package UI
 
+import Gestion.BaseDeDatos.GestionarBaseDatos
 import Gestion.Fichero.GestionarHistoriales
+import Gestion.IGestorHistoriales
 import Inputs.InputsJuego
 import Inputs.InputsMenus
 import Juego.Historial
@@ -8,10 +10,15 @@ import Juego.LogicaJuego
 import Usuario.Usuario
 
 class MenuJuego {
-    val gestor = GestionarHistoriales()
+    var gestor : IGestorHistoriales
     val usuario : Usuario
     val historial : Historial?
-    constructor(usuario : Usuario) {
+    constructor(usuario : Usuario, eleccionGestor : Boolean) {
+        if (!eleccionGestor) {
+            gestor = GestionarHistoriales()
+        } else {
+            gestor = GestionarBaseDatos()
+        }
         this.usuario = usuario
         this.historial = gestor.obtenerHistorial(usuario.email)
     }
@@ -21,7 +28,7 @@ class MenuJuego {
 
         while (eleccion) {
             if (historial == null) {
-                println("[ERROR] Historial no encontrado")
+                println(MenuColores.error() + " Historial no encontrado")
                 eleccion = false
             } else {
                 when (menuJuego()) {
@@ -37,7 +44,7 @@ class MenuJuego {
     }
 
     fun menuJuego(): Int {
-        println("Hola! [${usuario.nombre}]")
+        println("Hola! ${MenuColores.set("[${usuario.nombre}]", MenuColores.cian)}")
         println("@======¿Que Desea Hacer?======@")
         println("|                             |")
         println("|        [1]  Jugar           |")

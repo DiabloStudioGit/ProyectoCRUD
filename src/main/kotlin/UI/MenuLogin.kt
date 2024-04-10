@@ -28,11 +28,11 @@ class MenuLogin {
         val correo = inputsLogin.ingresoEmail()
         val usuario = gestionarUsuarios.obtenerUsuario(correo)
         if (usuario == null) {
-            println("[ERROR] No hay ningun usuario registrado con ese correo")
+            println(MenuColores.error() + " No hay ningun usuario registrado con ese correo")
         }else if (inputsLogin.ingresoContrasenia(usuario)) {
-            println("[OK] Iniciando sesión...")
+            println(MenuColores.ok() + " Iniciando sesión...")
         } else {
-            println("[ERROR] Error al iniciar sesión")
+            println(MenuColores.error() + " Error al iniciar sesión")
         }
         return usuario
     }
@@ -51,6 +51,26 @@ class MenuLogin {
     }
 
     companion object {
+        fun bienvenida(){
+            println()
+            println("[Proyecto" + MenuColores.set("CRUD", MenuColores.amarillo) + "]")
+            println(MenuColores.set((" ██████╗   ██████╗    ██╗   ██╗   ██████╗    "), MenuColores.rojo))
+            println(MenuColores.set(("██╔════╝   ██╔══██╗   ██║   ██║   ██╔══██╗   "), MenuColores.amarillo))
+            println(MenuColores.set(("██║        ██████╔╝   ██║   ██║   ██║  ██║   "), MenuColores.verde))
+            println(MenuColores.set(("██║        ██╔══██╗   ██║   ██║   ██║  ██║   "), MenuColores.cian))
+            println(MenuColores.set(("╚██████╗██╗██║  ██║██╗╚██████╔╝██╗██████╔╝██╗"), MenuColores.azul))
+            println(MenuColores.set((" ╚═════╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═════╝ ╚═╝"), MenuColores.magenta))
+            println(".:" + MenuColores.set("Carlos Canal", MenuColores.rojo) + " / " + MenuColores.set("Miguel León", MenuColores.amarillo) + " / " + MenuColores.set("Manuel Santos", MenuColores.verde) + " / " + MenuColores.set("Jose García", MenuColores.cian) + " / " + MenuColores.set("David Zamora", MenuColores.magenta) + ":.")
 
+        }
+
+        fun menuGestor(){
+            println("@==Elija un Sistema de datos==@")
+            println("|                             |")
+            println("|     [1]  Sistema Ficheros   |")
+            println("|       [2]  Base de Datos    |")
+            println("|                             |")
+            println("@=============================@")
+        }
     }
 }

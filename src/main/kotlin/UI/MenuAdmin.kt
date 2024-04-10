@@ -1,6 +1,9 @@
 package UI
 
+import Gestion.BaseDeDatos.GestionarBaseDatos
 import Gestion.Fichero.GestionarHistoriales
+import Gestion.Gestor
+import Gestion.IGestorHistoriales
 import Gestion.IGestorUsuarios
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
@@ -66,7 +69,7 @@ class MenuAdmin {
     fun modificarUsuario(){
         val usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
         if (usuario == null) {
-            println("[ERROR] Usuario no encontrado")
+            println(MenuColores.error() + " Usuario no encontrado")
         } else {
             val modificaciones = usuario
 
@@ -87,8 +90,13 @@ class MenuAdmin {
                 3 -> modificaciones.edad = InputsRegistro.introducirEdad()
                 4 -> {
                     val emailNuevo = InputsRegistro.introducirEmail()
-                    val gestionarHistorial = GestionarHistoriales()
-                    val historial = gestionarHistorial.obtenerHistorial(modificaciones.email)
+                    val gestionarHistorial : IGestorHistoriales
+                    if (Gestor.eleccion) {
+                        gestionarHistorial = GestionarBaseDatos()
+                    } else {
+                        gestionarHistorial = GestionarHistoriales()
+                    }
+                    val historial = gestionarHistorial.obtenerHistorial(usuario.email)
                     val historialNuevo = historial
                     historialNuevo!!.emailJugador = emailNuevo
                     gestionarHistorial.modificarHistorial(historial, historialNuevo, true)

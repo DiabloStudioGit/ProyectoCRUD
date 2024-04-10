@@ -1,10 +1,12 @@
 import Gestion.BaseDeDatos.GestionarBaseDatos
 import UI.MenuLogin
 import Gestion.Fichero.GestionarUsuarios
+import Gestion.Gestor
 import Gestion.IGestorUsuarios
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
 import UI.MenuAdmin
+import UI.MenuColores
 import UI.MenuJuego
 import Usuario.Roles
 import Usuario.Usuario
@@ -14,6 +16,8 @@ fun main() {
     var gestionarUsuarios : IGestorUsuarios
     //Imprimir eleccion entre bbdd o fichero
 
+    MenuLogin.bienvenida()
+    MenuLogin.menuGestor()
     val gestor = InputsMenus.seleccionarOpcionMenu(2)
     when (gestor) {
         1 -> {
@@ -23,8 +27,9 @@ fun main() {
         else -> {
             try{
                 gestionarUsuarios = GestionarBaseDatos()
+                Gestor.eleccion = true
             }catch (ex : SQLException) {
-                println("[ERROR] No se ha podido conectar con la base de datos, se va a proceder con el sistema de ficheros.")
+                println(MenuColores.error() + " No se ha podido conectar con la base de datos, se va a proceder con el sistema de ficheros.")
                 gestionarUsuarios = GestionarUsuarios()
             }
         }
@@ -44,7 +49,7 @@ fun main() {
             1 -> {
                 val usuario = menuLogin.iniciarSesion()
                 if (usuario != null){
-                    val menuJuego = MenuJuego(usuario)
+                    val menuJuego = MenuJuego(usuario, Gestor.eleccion)
 
                     if (usuario.rol == Roles.ADMINISTRADOR) {
                         //Si el usuario es Administrador, pide a donde ir

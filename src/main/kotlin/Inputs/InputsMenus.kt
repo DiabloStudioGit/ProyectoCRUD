@@ -1,5 +1,7 @@
 package Inputs
 
+import UI.MenuColores
+
 class InputsMenus {
     companion object {
         /**
@@ -14,7 +16,7 @@ class InputsMenus {
 
             do {
                 var valido = true
-                print("Introduce una opción [1-$numeroOpciones]: ")
+                print("Introduce una opción " + MenuColores.set("[1-$numeroOpciones]", MenuColores.magenta) + ": ")
                 opt = readln().toIntOrNull()
                 if (opt == null || opt !in 1.. numeroOpciones) {
                     println("!ERROR!")

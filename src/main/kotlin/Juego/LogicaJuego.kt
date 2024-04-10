@@ -36,6 +36,11 @@ class LogicaJuego {
      * @return El porcentaje de partidas ganadas como un valor decimal.
      */
     fun calculoPorcentajeVictorias(historial: Historial): Double {
-        return ((historial.partidasGanadas / historial.partidasJugadas) * 100).toDouble()
+        return if(historial.partidasJugadas != 0) {
+            ((historial.partidasGanadas / historial.partidasJugadas) * 100).toDouble()
+        } else {
+            0.0
+        }
+
     }
 }
