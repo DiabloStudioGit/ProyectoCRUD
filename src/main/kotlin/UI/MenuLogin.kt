@@ -53,7 +53,7 @@ class MenuLogin {
     companion object {
         fun bienvenida(){
             println()
-            println("[Proyecto" + MenuColores.set("CRUD", MenuColores.amarillo) + "]")
+            println("[Proyecto" + MenuColores.random("CRUD") + "]")
             println(MenuColores.set((" ██████╗   ██████╗    ██╗   ██╗   ██████╗    "), MenuColores.rojo))
             println(MenuColores.set(("██╔════╝   ██╔══██╗   ██║   ██║   ██╔══██╗   "), MenuColores.amarillo))
             println(MenuColores.set(("██║        ██████╔╝   ██║   ██║   ██║  ██║   "), MenuColores.verde))
@@ -61,7 +61,6 @@ class MenuLogin {
             println(MenuColores.set(("╚██████╗██╗██║  ██║██╗╚██████╔╝██╗██████╔╝██╗"), MenuColores.azul))
             println(MenuColores.set((" ╚═════╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═════╝ ╚═╝"), MenuColores.magenta))
             println(".:" + MenuColores.set("Carlos Canal", MenuColores.rojo) + " / " + MenuColores.set("Miguel León", MenuColores.amarillo) + " / " + MenuColores.set("Manuel Santos", MenuColores.verde) + " / " + MenuColores.set("Jose García", MenuColores.cian) + " / " + MenuColores.set("David Zamora", MenuColores.magenta) + ":.")
-
         }
 
         fun menuGestor(){

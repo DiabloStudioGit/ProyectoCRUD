@@ -23,6 +23,11 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
     }
 
     //USUARIOS
+    /**
+     * Añade un nuevo usuario a la base de datos.
+     *
+     * @param usuario El objeto Usuario que se va a añadir a la base de datos.
+     */
     override fun añadirUsuario(usuario : Usuario) {
         var historial = Historial(usuario.email, 0, 0, 0)
         val query = "INSERT INTO usuarios (nombre, apellidos, edad, email, password, rol) VALUES (?, ?, ?, ?, ?, ?)"
@@ -53,6 +58,11 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         añadirHistorial(historial)
     }
 
+    /**
+     * Elimina un usuario de la base de datos.
+     *
+     * @param usuario El objeto Usuario que se va a eliminar de la base de datos.
+     */
     override fun borrarUsuario(usuario: Usuario) {
         val user = obtenerUsuario(usuario.email)
         if (user != null) {
@@ -74,6 +84,12 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
 
     }
 
+    /**
+     * Obtiene un usuario de la base de datos según su dirección de correo electrónico.
+     *
+     * @param email La dirección de correo electrónico del usuario que se desea obtener.
+     * @return El objeto Usuario correspondiente al correo electrónico proporcionado, o null si no se encuentra en la base de datos.
+     */
     override fun obtenerUsuario(email : String) : Usuario? {
         val statement = connection.prepareStatement("SELECT * FROM usuarios WHERE email = ?")
         statement.setString(1, email)
@@ -107,6 +123,12 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         return usuario
     }
 
+    /**
+     * Modifica los permisos de un usuario en la base de datos.
+     *
+     * @param usuario El objeto Usuario cuyos permisos se van a modificar.
+     * @param rol El nuevo rol que se asignará al usuario.
+     */
     override fun modificarPermisos(usuario : Usuario, rol : Roles) {
         val user = obtenerUsuario(usuario.email)
         if (user != null) {
@@ -133,6 +155,12 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         }
     }
 
+    /**
+     * Modifica los datos de un usuario en la base de datos.
+     *
+     * @param usuarioOriginal El objeto Usuario cuyos datos se van a modificar.
+     * @param datosNuevos El objeto Usuario con los nuevos datos que se van a asignar al usuario.
+     */
     override fun modificarUsuario(usuarioOriginal : Usuario, datosNuevos : Usuario) {
         val user = obtenerUsuario(usuarioOriginal.email)
         if (user != null) {
@@ -160,6 +188,10 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         }
     }
 
+    /**
+     * Muestra todos los usuarios almacenados en la base de datos.
+     * Imprime los detalles de cada usuario en la consola, incluyendo nombre, apellidos, edad, email y rol.
+     */
     override fun mostrarUsuarios() {
         println("Usuarios:")
         obtenerUsuarios().forEachIndexed { index, usuario ->
@@ -167,6 +199,11 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         }
     }
 
+    /**
+     * Obtiene todos los usuarios almacenados en la base de datos.
+     *
+     * @return ArrayList de objetos Usuario que representan a todos los usuarios almacenados en la base de datos.
+     */
     override fun obtenerUsuarios(): ArrayList<Usuario> {
         val listaUsuarios = ArrayList<Usuario>()
 
@@ -195,6 +232,11 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
 
 
     //HISTORIALES
+    /**
+     * Añade un nuevo registro al historial de un jugador en la base de datos.
+     *
+     * @param historial El objeto Historial que se va a añadir al historial del jugador.
+     */
     override fun añadirHistorial(historial: Historial) {
         val query = "INSERT INTO historial (email, partidasJugadas, partidasGanadas, puntos) VALUES (?, ?, ?, ?)"
 
@@ -217,6 +259,11 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         }
     }
 
+    /**
+     * Elimina el historial de un jugador de la base de datos.
+     *
+     * @param historial El objeto Historial cuyo historial se va a eliminar de la base de datos.
+     */
     override fun borrarHistorial(historial: Historial) {
         val log = obtenerHistorial(historial.emailJugador)
         if (log != null) {
@@ -237,6 +284,12 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         }
     }
 
+    /**
+     * Obtiene el historial de un jugador desde la base de datos.
+     *
+     * @param usuario El objeto Usuario del cual se desea obtener el historial.
+     * @return El objeto Historial del jugador correspondiente, o null si no se encuentra en la base de datos.
+     */
     override fun obtenerHistorial(usuario: Usuario): Historial? {
         val sql = "SELECT * FROM historial WHERE email = ?"
         val statement = connection.prepareStatement(sql)
@@ -264,6 +317,12 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         return historial
     }
 
+    /**
+     * Obtiene el historial de un jugador según su dirección de correo electrónico desde la base de datos.
+     *
+     * @param email La dirección de correo electrónico del jugador del cual se desea obtener el historial.
+     * @return El objeto Historial del jugador correspondiente, o null si no se encuentra en la base de datos.
+     */
     override fun obtenerHistorial(email: String): Historial? {
         val sql = "SELECT * FROM historial WHERE email = ?"
         val statement = connection.prepareStatement(sql)
@@ -291,6 +350,13 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         return historial
     }
 
+    /**
+     * Modifica el historial de un jugador en la base de datos.
+     *
+     * @param historialOriginal El objeto Historial cuyos datos se van a modificar.
+     * @param datosNuevos El objeto Historial con los nuevos datos que se van a asignar al historial del jugador.
+     * @param esAdmin Un booleano que indica si el usuario que realiza la modificación es un administrador.
+     */
     override fun modificarHistorial(historialOriginal: Historial, datosNuevos: Historial, esAdmin: Boolean) {
         val historial = obtenerUsuario(historialOriginal.emailJugador)
         if (historial != null) {
@@ -320,6 +386,11 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         }
     }
 
+    /**
+     * Obtiene todos los registros de historial de jugadores almacenados en la base de datos.
+     *
+     * @return ArrayList de objetos Historial que representan todos los registros de historial de jugadores almacenados en la base de datos.
+     */
     override fun obtenerHistoriales(): ArrayList<Historial> {
         val listaHistorial = ArrayList<Historial>()
 
