@@ -2,6 +2,7 @@ package Gestion.Fichero
 
 import Gestion.IGestorHistoriales
 import Juego.Historial
+import UI.MenuColores
 import Usuario.Usuario
 import java.io.File
 import java.io.FileInputStream
@@ -29,7 +30,7 @@ class GestionarHistoriales : IGestorHistoriales {
     override fun añadirHistorial(historial : Historial) {
         this.historiales.add(historial)
         this.guardarHistoriales()
-        println("Historial creado correctamente.")
+        println(MenuColores.ok() + " Historial creado correctamente.")
     }
 
     /**
@@ -41,9 +42,9 @@ class GestionarHistoriales : IGestorHistoriales {
         if (this.historiales.contains(historial)) {
             this.historiales.remove(historial)
             this.guardarHistoriales()
-            println("Historial borrado correctamente.")
+            println(MenuColores.ok() + " Historial " + MenuColores.set("borrado", MenuColores.rojo) + " correctamente.")
         }else {
-            println("No se ha podido encontrar el historial")
+            println(MenuColores.error() + " No se ha podido encontrar el historial")
         }
     }
 
@@ -63,7 +64,7 @@ class GestionarHistoriales : IGestorHistoriales {
         }
 
         if (historialBuscado == null) {
-            println("No se ha encontrado el historial.")
+            println(MenuColores.error() + " No se ha encontrado el historial.")
         }
 
         return historialBuscado
@@ -85,7 +86,7 @@ class GestionarHistoriales : IGestorHistoriales {
         }
 
         if (historialBuscado == null) {
-            println("No se ha encontrado el historial.")
+            println(MenuColores.error() + " No se ha encontrado el historial.")
         }
 
         return historialBuscado
@@ -109,13 +110,13 @@ class GestionarHistoriales : IGestorHistoriales {
 
         if (exito && esAdmin) {
             this.guardarHistoriales()
-            println("Se ha modificado el historial correctamente.")
+            println(MenuColores.ok() + " Se ha modificado el historial correctamente.")
         }else if (exito && !esAdmin) {
             this.guardarHistoriales()
         } else if (!esAdmin) {
-            println("[ERROR] No se ha podido guardar la Puntuacion.")
+            println(MenuColores.error() + " No se ha podido guardar la Puntuacion.")
         } else {
-            println("No se ha encontrado el historial.")
+            println(MenuColores.error() + " No se ha encontrado el historial.")
         }
     }
 
@@ -134,7 +135,7 @@ class GestionarHistoriales : IGestorHistoriales {
                 objectInputStream = ObjectInputStream(fileInputStream)
                 historialesExistentes = objectInputStream.readObject() as ArrayList<Historial>
             }catch (exception : StreamCorruptedException) {
-                println("Los datos no se han podido obtener.")
+                println(MenuColores.error() + " Los datos no se han podido obtener.")
             }finally {
                 objectInputStream?.close()
             }

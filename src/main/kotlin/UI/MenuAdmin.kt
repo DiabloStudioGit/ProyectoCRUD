@@ -8,6 +8,7 @@ import Gestion.IGestorUsuarios
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
 import Usuario.Usuario
+import java.awt.Menu
 
 class MenuAdmin {
     val gestUsuarios : IGestorUsuarios
@@ -18,17 +19,17 @@ class MenuAdmin {
 
     fun mostrarMenu(): Int {
 
-        println("@======¿Qué Desea Hacer?======@")
-        println("|                             |")
-        println("|   [1]  Añadir Usuario       |")
-        println("|   [2]  Mostrar Usuarios     |")
-        println("|   [3]  Buscar Usuario       |")
-        println("|   [4]  Borrar Usuario       |")
-        println("|   [5]  Modificar Usuario    |")
-        println("|   [6]  Cambiar Permisos     |")
-        println("|   [7]  Salir                |")
-        println("|                             |")
-        println("@=============================@")
+        println(MenuColores.set("@======", MenuColores.azul) + "¿Qué Desea Hacer?" + MenuColores.set("======@", MenuColores.azul))
+        println(MenuColores.set("|                             |", MenuColores.azul))
+        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[1]", MenuColores.magenta) + "  Añadir Usuario" + MenuColores.set("       |", MenuColores.azul))
+        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[2]", MenuColores.magenta) + "  Mostrar Usuarios" + MenuColores.set("     |", MenuColores.azul))
+        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[3]", MenuColores.magenta) + "  Buscar Usuario" + MenuColores.set("       |", MenuColores.azul))
+        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[4]", MenuColores.magenta) + "  Borrar Usuario" + MenuColores.set("       |", MenuColores.azul))
+        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[5]", MenuColores.magenta) + "  Modificar Usuario" + MenuColores.set("    |", MenuColores.azul))
+        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[6]", MenuColores.magenta) + "  Cambiar Permisos" + MenuColores.set("     |", MenuColores.azul))
+        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[7]", MenuColores.magenta) + "  Salir" + MenuColores.set("                |", MenuColores.azul))
+        println(MenuColores.set("|                             |", MenuColores.azul))
+        println(MenuColores.set("@=============================@", MenuColores.azul))
 
         return InputsMenus.seleccionarOpcionMenu(7)
     }
@@ -61,7 +62,7 @@ class MenuAdmin {
     fun borrarUsuario(){
         val usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
         if (usuario == null) {
-            println("[ERROR] Usuario no encontrado")
+            println(MenuColores.error() + " Usuario no encontrado")
         } else {
             gestUsuarios.borrarUsuario(usuario)
         }
@@ -74,14 +75,14 @@ class MenuAdmin {
             val modificaciones = usuario.copy()
 
             println("Usuario seleccionado: ${usuario.nombre}")
-            println("@====¿Qué Desea Modificar?====@")
-            println("|   [1]  Nombre               |")
-            println("|   [2]  Apellido             |")
-            println("|   [3]  Edad                 |")
-            println("|   [4]  Email                |")
-            println("|   [5]  Contraseña           |")
-            println("|   [6]  Salir                |")
-            println("@=============================@")
+            println(MenuColores.set("@====", MenuColores.rojo) + "¿Qué Desea Modificar?" + MenuColores.set("====@", MenuColores.rojo))
+            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[1]", MenuColores.amarillo) + "  Nombre" + MenuColores.set("               |", MenuColores.rojo))
+            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[2]", MenuColores.amarillo) + "  Apellido" + MenuColores.set("             |", MenuColores.rojo))
+            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[3]", MenuColores.amarillo) + "  Edad" + MenuColores.set("                 |", MenuColores.rojo))
+            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[4]", MenuColores.amarillo) + "  Email" + MenuColores.set("                |", MenuColores.rojo))
+            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[5]", MenuColores.amarillo) + "  Contraseña" + MenuColores.set("           |", MenuColores.rojo))
+            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[6]", MenuColores.amarillo) + "  Salir" + MenuColores.set("                |", MenuColores.rojo))
+            println(MenuColores.set("@=============================@", MenuColores.rojo))
 
             val opcion = InputsMenus.seleccionarOpcionMenu(6)
             when (opcion) {
@@ -113,7 +114,7 @@ class MenuAdmin {
     fun cambiarPermisosUsuario(){
         val usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
         if (usuario == null) {
-            println("[ERROR] Usuario no encontrado")
+            println(MenuColores.error() + " Usuario no encontrado")
         } else {
             gestUsuarios.modificarPermisos(usuario, InputsRegistro.introducirRol())
         }

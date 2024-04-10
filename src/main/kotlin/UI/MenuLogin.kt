@@ -15,13 +15,13 @@ class MenuLogin {
     }
 
     fun imprimirOpciones() {
-        println("@======¿Que Desea Hacer?======@")
-        println("|                             |")
-        println("|     [1]  Iniciar Sesion     |")
-        println("|       [2]  Registrarse      |")
-        println("|          [3]  Salir         |")
-        println("|                             |")
-        println("@=============================@")
+        println(MenuColores.set("@======", MenuColores.cian) + "¿Que Desea Hacer?" + MenuColores.set("======@",MenuColores.cian))
+        println(MenuColores.set("|                             |", MenuColores.cian))
+        println(MenuColores.set("|     ", MenuColores.cian) + MenuColores.set("[1]", MenuColores.amarillo) + "  Iniciar Sesion" + MenuColores.set("     |", MenuColores.cian))
+        println(MenuColores.set("|       ", MenuColores.cian) + MenuColores.set("[2]", MenuColores.amarillo) + "  Registrarse" + MenuColores.set("      |", MenuColores.cian))
+        println(MenuColores.set("|          ", MenuColores.cian) + MenuColores.set("[3]", MenuColores.amarillo) + "  Salir" + MenuColores.set("         |", MenuColores.cian))
+        println(MenuColores.set("|                             |", MenuColores.cian))
+        println(MenuColores.set("@=============================@", MenuColores.cian))
     }
 
     fun iniciarSesion() : Usuario? {
@@ -37,15 +37,15 @@ class MenuLogin {
         return usuario
     }
 
-    fun pedirAdmin(): Int {
+    fun pedirAdmin(correoAdmin: String): Int {
 
-        println("Usuario Administrador")
-        println("@======¿Que Desea Hacer?======@")
-        println("|                             |")
-        println("|         [1]  Jugar          |")
-        println("|     [2]  Administracion     |")
-        println("|                             |")
-        println("@=============================@")
+        println("Administrador: " + MenuColores.random(correoAdmin))
+        println(MenuColores.set("@======", MenuColores.amarillo) + "¿Que Desea Hacer?" + MenuColores.set("======@", MenuColores.amarillo))
+        println(MenuColores.set("|                             |", MenuColores.amarillo))
+        println(MenuColores.set("|         ", MenuColores.amarillo) + MenuColores.set("[1]", MenuColores.magenta) + "  Jugar" + MenuColores.set("          |", MenuColores.amarillo))
+        println(MenuColores.set("|     ", MenuColores.amarillo) + MenuColores.set("[2]", MenuColores.magenta) + "  Administracion" + MenuColores.set("     |", MenuColores.amarillo))
+        println(MenuColores.set("|                             |", MenuColores.amarillo))
+        println(MenuColores.set("@=============================@", MenuColores.amarillo))
 
         return InputsMenus.seleccionarOpcionMenu(2)
     }
@@ -64,12 +64,12 @@ class MenuLogin {
         }
 
         fun menuGestor(){
-            println("@==Elija un Sistema de datos==@")
-            println("|                             |")
-            println("|     [1]  Sistema Ficheros   |")
-            println("|       [2]  Base de Datos    |")
-            println("|                             |")
-            println("@=============================@")
+            println(MenuColores.set("@==", MenuColores.magenta) + "Elija un " + MenuColores.set("Sistema de datos", MenuColores.azul) + MenuColores.set("==@", MenuColores.magenta))
+            println(MenuColores.set("|                             |", MenuColores.magenta))
+            println(MenuColores.set("|     ", MenuColores.magenta) + MenuColores.set("[1]", MenuColores.cian) +"   Sistema Ficheros" + MenuColores.set("  |", MenuColores.magenta))
+            println(MenuColores.set("|       ", MenuColores.magenta) + MenuColores.set("[2]", MenuColores.cian) + "  Base de Datos" + MenuColores.set("    |", MenuColores.magenta))
+            println(MenuColores.set("|                             |", MenuColores.magenta))
+            println(MenuColores.set("@=============================@", MenuColores.magenta))
         }
     }
 }

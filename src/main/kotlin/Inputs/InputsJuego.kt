@@ -1,5 +1,7 @@
 package Inputs
 
+import UI.MenuColores
+
 class InputsJuego {
     companion object {
         /**
@@ -12,10 +14,13 @@ class InputsJuego {
 
             do {
                 var valido = true
-                print("Introduce un número del 1 al 10 a ver si aciertas: ")
+                print("Introduce un " + MenuColores.set("número", MenuColores.azul) + " del " + MenuColores.set("1", MenuColores.rojo) + " al " + MenuColores.set("10", MenuColores.rojo) + " a ver si aciertas: ")
                 numero = readln().toIntOrNull()
-                if (numero == null || numero !in 1..10) {
-                    println("!ERROR!")
+                if (numero == null) {
+                    println(MenuColores.error() + " El valor no puede ser vacío o " + MenuColores.set("nulo", MenuColores.magenta))
+                    valido = false
+                } else if (numero !in 1..10) {
+                    println(MenuColores.error() + " El valor debe estar en el rango de " + MenuColores.set("1", MenuColores.rojo) + " a " + MenuColores.set("10",MenuColores.rojo))
                     valido = false
                 }
             } while (!valido)

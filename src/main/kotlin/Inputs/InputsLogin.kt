@@ -1,5 +1,6 @@
 package Inputs
 
+import UI.MenuColores
 import Usuario.Usuario
 
 class InputsLogin {
@@ -12,7 +13,7 @@ class InputsLogin {
         var emailInput: String?
 
         do {
-            print("Ingrese el email: ")
+            print("Ingrese el " + MenuColores.random("email") + ": ")
             emailInput = readlnOrNull()
         } while (emailInput == null)
 
@@ -30,12 +31,12 @@ class InputsLogin {
         var esCorrecta = false
 
         do {
-            print("Introducir contraseña: ")
+            print("Introducir " + MenuColores.random("contraseña") + ": ")
             contrasenia = readlnOrNull()
             if (contrasenia == usuario.contrasenia) {
                 esCorrecta = true
             } else {
-                println("ERROR, contraseña incorrecta")
+                println(MenuColores.error() + " Contraseña incorrecta.")
             }
         } while (contrasenia != usuario.contrasenia)
 

@@ -16,24 +16,20 @@ class InputsMenus {
 
             do {
                 var valido = true
-                print("Introduce una opción " + MenuColores.set("[1-$numeroOpciones]", MenuColores.magenta) + ": ")
+                print("Introduce una opción " + MenuColores.random("[1-$numeroOpciones]") + ": ")
                 opt = readln().toIntOrNull()
-                if (opt == null || opt !in 1.. numeroOpciones) {
-                    println("!ERROR!")
+
+                if (opt == null) {
+                    println(MenuColores.set(MenuColores.error() + " El numero no puede ser " + MenuColores.set("nulo", MenuColores.magenta) + "."))
+                    valido = false
+                } else if (opt !in 1..numeroOpciones) {
+                    println(MenuColores.set(MenuColores.error() + " La opción " + MenuColores.set(opt.toString(), MenuColores.magenta) + " está fuera del rango válido."))
+                    println(MenuColores.set("Sugerencia:", MenuColores.azul) + " Prueba a introducir un número entre el rango " + MenuColores.set("[1-$numeroOpciones]", MenuColores.cian))
                     valido = false
                 }
             } while (!valido)
 
             return opt!!
-        }
-
-        /**
-         * Indica la acción de salida del menú.
-         *
-         * @return `true` para indicar que se debe salir del menú.
-         */
-        fun salirMenu(): Boolean {
-            return true
         }
     }
 }

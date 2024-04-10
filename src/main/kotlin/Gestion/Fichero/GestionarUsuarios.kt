@@ -3,6 +3,7 @@ package Gestion.Fichero
 import Gestion.BaseDeDatos.GestionarBaseDatos
 import Gestion.IGestorUsuarios
 import Juego.Historial
+import UI.MenuColores
 import Usuario.Roles
 import Usuario.Usuario
 import java.io.File
@@ -34,7 +35,7 @@ class GestionarUsuarios : IGestorUsuarios {
         this.usuarios.add(usuario)
         this.guardarUsuarios()
         gestionarHistorial.añadirHistorial(historial)
-        println("Usuario \"${usuario.nombre}\" creado correctamente.")
+        println(MenuColores.ok() + " Usuario \"${usuario.nombre}\" creado correctamente.")
     }
 
     /**
@@ -46,9 +47,9 @@ class GestionarUsuarios : IGestorUsuarios {
         if (this.usuarios.contains(usuario)) {
             this.usuarios.remove(usuario)
             this.guardarUsuarios()
-            println("Usuario borrado correctamente.")
+            println(MenuColores.ok() + " Usuario " + MenuColores.set("borrado", MenuColores.rojo) + " correctamente.")
         }else {
-            println("No se ha podido encontrar el usuario.")
+            println(MenuColores.error() + " No se ha podido encontrar el usuario.")
         }
     }
 
@@ -68,7 +69,7 @@ class GestionarUsuarios : IGestorUsuarios {
         }
 
         if (usuarioBuscado == null) {
-            println("No se ha encontrado el usuario.")
+            println(MenuColores.error() + " No se ha encontrado el usuario.")
         }
 
         return usuarioBuscado
@@ -90,9 +91,9 @@ class GestionarUsuarios : IGestorUsuarios {
 
         if (exito) {
             this.guardarUsuarios()
-            println("Se ha modificado el permiso del usuario ${usuario.nombre} correctamente.")
+            println(MenuColores.ok() + " Se ha modificado el permiso del usuario ${usuario.nombre} correctamente.")
         }else {
-            println("No se ha encontrado el usuario ${usuario.nombre}.")
+            println(MenuColores.error() + " No se ha encontrado el usuario ${usuario.nombre}.")
         }
     }
 
@@ -113,9 +114,9 @@ class GestionarUsuarios : IGestorUsuarios {
 
         if (exito) {
             this.guardarUsuarios()
-            println("Se ha modificado el usuario ${usuarioOriginal.nombre} correctamente.")
+            println(MenuColores.ok() + " Se ha modificado el usuario " + MenuColores.set(datosNuevos.nombre, MenuColores.magenta) + " correctamente.")
         }else {
-            println("No se ha encontrado el usuario ${usuarioOriginal.nombre}.")
+            println(MenuColores.error() + " No se ha encontrado el usuario ${usuarioOriginal.nombre}.")
         }
     }
 
@@ -129,7 +130,7 @@ class GestionarUsuarios : IGestorUsuarios {
                 println("${++index} $usuario")
             }
         }else {
-            println("No hay usuarios para mostrar.")
+            println(MenuColores.info() + " No hay usuarios para mostrar.")
         }
     }
 
@@ -150,7 +151,7 @@ class GestionarUsuarios : IGestorUsuarios {
                 objectInputStream = ObjectInputStream(fileInputStream)
                 usuariosExistentes = objectInputStream.readObject() as ArrayList<Usuario>
             }catch (exception : StreamCorruptedException) {
-                println("Los datos no se han podido obtener.")
+                println(MenuColores.error() + " Los datos no se han podido obtener.")
             } finally {
                 objectInputStream?.close()
             }

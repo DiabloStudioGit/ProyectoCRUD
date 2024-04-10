@@ -21,15 +21,17 @@ fun main() {
     val gestor = InputsMenus.seleccionarOpcionMenu(2)
     when (gestor) {
         1 -> {
-            println("Se va a proceder con el sistema de ficheros.")
+            println("Se va a proceder con el " + MenuColores.set("sistema de ficheros.", MenuColores.azul))
             gestionarUsuarios = GestionarUsuarios()
         }
         else -> {
             try{
                 gestionarUsuarios = GestionarBaseDatos()
+                println("Se va a proceder con el sistema de " + MenuColores.set("Base de Datos.", MenuColores.azul))
                 Gestor.eleccion = true
             }catch (ex : SQLException) {
-                println(MenuColores.error() + " No se ha podido conectar con la base de datos, se va a proceder con el sistema de ficheros.")
+                println(MenuColores.error() + " No se ha podido conectar con la base de datos.")
+                println(MenuColores.info() + " Se va a proceder con el " + MenuColores.set("sistema de ficheros.", MenuColores.azul))
                 gestionarUsuarios = GestionarUsuarios()
             }
         }
@@ -49,11 +51,11 @@ fun main() {
             1 -> {
                 val usuario = menuLogin.iniciarSesion()
                 if (usuario != null){
-                    val menuJuego = MenuJuego(usuario, Gestor.eleccion)
+                    val menuJuego = MenuJuego(usuario)
 
                     if (usuario.rol == Roles.ADMINISTRADOR) {
                         //Si el usuario es Administrador, pide a donde ir
-                        when (menuLogin.pedirAdmin()) {
+                        when (menuLogin.pedirAdmin(usuario.email)) {
                             1 -> {
                                 menuJuego.juego()
                             }

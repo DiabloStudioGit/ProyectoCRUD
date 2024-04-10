@@ -1,5 +1,7 @@
 package Juego
 
+import UI.MenuColores
+
 
 class LogicaJuego {
     /**
@@ -19,11 +21,11 @@ class LogicaJuego {
      */
     fun hasAcertado(historial: Historial, numeroJugador: Int): Historial {
         if (numeroJugador == crearNumeroAleatorio()) {
-            println("!Has acertado!")
+            println("!Has " + MenuColores.set("acertado", MenuColores.verde) + "!")
             historial.partidasGanadas++
             historial.partidasJugadas++
         } else {
-            println("No has hacertado :(")
+            println("No has " + MenuColores.set("acertado", MenuColores.rojo) + " :(")
             historial.partidasJugadas++
         }
         return historial
@@ -37,7 +39,7 @@ class LogicaJuego {
      */
     fun calculoPorcentajeVictorias(historial: Historial): Double {
         return if(historial.partidasJugadas != 0) {
-            ((historial.partidasGanadas / historial.partidasJugadas) * 100).toDouble()
+            ((historial.partidasGanadas.toDouble() / historial.partidasJugadas.toDouble()) * 100)
         } else {
             0.0
         }
