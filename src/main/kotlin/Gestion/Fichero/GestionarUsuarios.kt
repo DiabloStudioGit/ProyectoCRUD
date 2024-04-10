@@ -16,8 +16,6 @@ class GestionarUsuarios : IGestorUsuarios {
     private val FICHERO_USUARIOS = "usuarios.dat"
     private var usuarios : ArrayList<Usuario>
 
-    var bd = GestionarBaseDatos()
-
     /**
      * Constructor para inicializar los usuarios.
      */

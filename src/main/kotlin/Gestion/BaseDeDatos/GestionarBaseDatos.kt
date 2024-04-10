@@ -19,13 +19,11 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         val bduser = ""
         val bdpasswd = ""
         val bdurl = "jdbc:mysql://:3306/crud"
-
         this.connection = DriverManager.getConnection(bdurl, bduser, bdpasswd)
     }
 
     //USUARIOS
     override fun añadirUsuario(usuario : Usuario) {
-        var gestionarHistorial = GestionarHistoriales()
         var historial = Historial(usuario.email, 0, 0, 0)
         val query = "INSERT INTO usuarios (nombre, apellidos, edad, email, password, rol) VALUES (?, ?, ?, ?, ?, ?)"
 
