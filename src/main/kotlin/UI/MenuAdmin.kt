@@ -71,7 +71,7 @@ class MenuAdmin {
         if (usuario == null) {
             println(MenuColores.error() + " Usuario no encontrado")
         } else {
-            val modificaciones = usuario
+            val modificaciones = usuario.copy()
 
             println("Usuario seleccionado: ${usuario.nombre}")
             println("@====¿Qué Desea Modificar?====@")
@@ -97,8 +97,8 @@ class MenuAdmin {
                         gestionarHistorial = GestionarHistoriales()
                     }
                     val historial = gestionarHistorial.obtenerHistorial(usuario.email)
-                    val historialNuevo = historial
-                    historialNuevo!!.emailJugador = emailNuevo
+                    val historialNuevo = historial!!.copy()
+                    historialNuevo.emailJugador = emailNuevo
                     gestionarHistorial.modificarHistorial(historial, historialNuevo, true)
                     modificaciones.email = emailNuevo
                 }
