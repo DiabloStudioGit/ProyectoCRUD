@@ -35,5 +35,10 @@ class MenuColores {
         fun error(): String {
             return set("[ERROR]", this.rojo)
         }
+
+        fun random(texto: String): String {
+            val colores = arrayOf(rojo, verde, amarillo, azul, magenta, cian)
+            return set(texto, colores.random())
+        }
     }
 }
