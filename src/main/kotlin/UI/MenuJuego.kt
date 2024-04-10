@@ -2,6 +2,7 @@ package UI
 
 import Gestion.BaseDeDatos.GestionarBaseDatos
 import Gestion.Fichero.GestionarHistoriales
+import Gestion.Gestor
 import Gestion.IGestorHistoriales
 import Inputs.InputsJuego
 import Inputs.InputsMenus
@@ -13,8 +14,8 @@ class MenuJuego {
     var gestor : IGestorHistoriales
     val usuario : Usuario
     val historial : Historial?
-    constructor(usuario : Usuario, eleccionGestor : Boolean) {
-        if (!eleccionGestor) {
+    constructor(usuario : Usuario) {
+        if (!Gestor.eleccion) {
             gestor = GestionarHistoriales()
         } else {
             gestor = GestionarBaseDatos()
