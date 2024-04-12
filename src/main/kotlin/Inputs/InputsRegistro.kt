@@ -20,7 +20,7 @@ class InputsRegistro {
                 print("Introduce tu " + MenuColores.random("nombre") + ": ")
                 nombre = readlnOrNull()
                 if (nombre.isNullOrBlank()) {
-                    println(MenuColores.error() + " El " + MenuColores.set("nombre", MenuColores.magenta) + " no puede ser nulo o vacio.")
+                    println(MenuColores.error() + " El " + MenuColores.magenta("nombre") + " no puede ser nulo o vacio.")
                     valido = false
                 }
             } while (!valido)
@@ -42,7 +42,7 @@ class InputsRegistro {
                 print("Introduce un " + MenuColores.random("email") + ": ")
                 email = readlnOrNull()
                 if (email == null || !patronEmail.matches(email)) {
-                    println(MenuColores.error() + MenuColores.set(" Email", MenuColores.magenta) + " no valido.")
+                    println(MenuColores.error() + MenuColores.magenta(" Email") + " no valido.")
                     valido = false
                 }
             } while (!valido)
@@ -63,7 +63,7 @@ class InputsRegistro {
                 print("Introduce tus " + MenuColores.random("apellidos") + ": ")
                 apellido = readlnOrNull()
                 if (apellido.isNullOrBlank()) {
-                    println(MenuColores.error() + " El " + MenuColores.set("apellido", MenuColores.magenta) + " no puede ser nulo o vacio.")
+                    println(MenuColores.error() + " El " + MenuColores.magenta("apellido") + " no puede ser nulo o vacio.")
                     valido = false
                 }
             } while (!valido)
@@ -84,7 +84,7 @@ class InputsRegistro {
                 print("Introduce tu " + MenuColores.random("edad") + ": ")
                 edad = readln().toIntOrNull()
                 if (edad == null || edad !in 12..150) {
-                    println(MenuColores.error() + MenuColores.set(" Edad", MenuColores.magenta) + " no valida.")
+                    println(MenuColores.error() + MenuColores.magenta(" Edad") + " no valida.")
                     valido = false
                 }
             } while (!valido)
@@ -102,10 +102,10 @@ class InputsRegistro {
 
             do {
                 var valido = true
-                print(MenuColores.random("Contraseña") + " [" + MenuColores.set("5", MenuColores.rojo) + " dígitos mínimos]: ")
+                print(MenuColores.random("Contraseña") + " [" + MenuColores.rojo("5") + " dígitos mínimos]: ")
                 contrasenia = readlnOrNull()
                 if (contrasenia.isNullOrBlank() || contrasenia.length < 5) {
-                    println(MenuColores.error() + MenuColores.set(" Contraseña", MenuColores.magenta) + " no valida.")
+                    println(MenuColores.error() + MenuColores.magenta(" Contraseña") + " no valida.")
                     valido = false
                 }
             } while (!valido)
@@ -115,14 +115,16 @@ class InputsRegistro {
 
         fun introducirRol(): Roles {
             var rol = Roles.ESTANDAR
-            println("Introduce un " + MenuColores.set("Rol", MenuColores.amarillo) + " para asignar")
-            println(MenuColores.set("@=============================@", MenuColores.magenta))
-            println(MenuColores.set("|     ", MenuColores.magenta) + MenuColores.set("[1]", MenuColores.amarillo) + "  Administrador" + MenuColores.set("      |", MenuColores.magenta))
-            println(MenuColores.set("|       ", MenuColores.magenta) + MenuColores.set("[2]", MenuColores.amarillo) + "  Estandar" + MenuColores.set("         |", MenuColores.magenta))
-            println(MenuColores.set("@=============================@", MenuColores.magenta))
+            println("Introduce un " + MenuColores.amarillo("Rol") + " para asignar")
+            println(MenuColores.magenta("@=============================@"))
+            println(MenuColores.magenta("|   ") + MenuColores.amarillo("[1]") + "  Administrador" + MenuColores.magenta("        |"))
+            println(MenuColores.magenta("|     ") + MenuColores.amarillo("[2]") + "  Estandar" + MenuColores.magenta("           |"))
+            println(MenuColores.magenta("|       ") + MenuColores.amarillo("[3]") + "  Admin (No juego)" + MenuColores.magenta(" |"))
+            println(MenuColores.magenta("@=============================@"))
 
-            when (InputsMenus.seleccionarOpcionMenu(2)) {
+            when (InputsMenus.seleccionarOpcionMenu(3)) {
                 1 -> rol = Roles.ADMINISTRADOR
+                3 -> rol = Roles.ADMIN_NoJuego
             }
             return rol
         }

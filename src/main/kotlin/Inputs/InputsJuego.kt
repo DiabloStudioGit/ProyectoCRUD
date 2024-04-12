@@ -14,13 +14,13 @@ class InputsJuego {
 
             do {
                 var valido = true
-                print("Introduce un " + MenuColores.set("número", MenuColores.azul) + " del " + MenuColores.set("1", MenuColores.rojo) + " al " + MenuColores.set("10", MenuColores.rojo) + " a ver si aciertas: ")
+                print("Introduce un " + MenuColores.azul("número") + " del " + MenuColores.rojo("1") + " al " + MenuColores.rojo("10") + " a ver si aciertas: ")
                 numero = readln().toIntOrNull()
                 if (numero == null) {
-                    println(MenuColores.error() + " El valor no puede ser vacío o " + MenuColores.set("nulo", MenuColores.magenta))
+                    println(MenuColores.error() + " El valor no puede ser vacío o " + MenuColores.magenta("nulo"))
                     valido = false
                 } else if (numero !in 1..10) {
-                    println(MenuColores.error() + " El valor debe estar en el rango de " + MenuColores.set("1", MenuColores.rojo) + " a " + MenuColores.set("10",MenuColores.rojo))
+                    println(MenuColores.error() + " El valor debe estar en el rango de " + MenuColores.rojo("1") + " a " + MenuColores.rojo("10"))
                     valido = false
                 }
             } while (!valido)

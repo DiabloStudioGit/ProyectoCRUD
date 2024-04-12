@@ -10,6 +10,7 @@ import Usuario.Usuario
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
+import javax.management.relation.Role
 
 
 class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
@@ -39,10 +40,12 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
             statement.setInt(3, usuario.edad)
             statement.setString(4, usuario.email)
             statement.setString(5, usuario.contrasenia)
-            if (usuario.rol == Roles.ESTANDAR) {
-                statement.setInt(6,0)
+            if (usuario.rol == Roles.ADMINISTRADOR) {
+                statement.setInt(6,1)
+            } else if (usuario.rol == Roles.ADMIN_NoJuego) {
+                statement.setInt(6, 2)
             } else {
-                statement.setInt(6, 1)
+                statement.setInt(6, 0)
             }
 
             statement.executeUpdate()
@@ -52,7 +55,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 println(MenuColores.error() + " El usuario ya existe.")
             } else {
                 println(MenuColores.error() + " Error al añadir al usuario:")
-                println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+                println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
             }
         }
         añadirHistorial(historial)
@@ -75,8 +78,8 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 statement.executeUpdate()
                 statement.close()
             } catch (e: SQLException) {
-                println(MenuColores.error() + " Error al " + MenuColores.set("eliminar", MenuColores.rojo) + " el usuario:")
-                println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+                println(MenuColores.error() + " Error al " + MenuColores.rojo("eliminar") + " el usuario:")
+                println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
             }
         } else {
             println(MenuColores.error() + " El usuario no existe.")
@@ -106,6 +109,8 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 var rol: Roles
                 if (resultSet.getInt("rol") == 1) {
                     rol = Roles.ADMINISTRADOR
+                } else if (resultSet.getInt("rol") == 2){
+                    rol = Roles.ADMIN_NoJuego
                 } else {
                     rol = Roles.ESTANDAR
                 }
@@ -114,7 +119,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
             }
         } catch (e: SQLException) {
             println(MenuColores.error() + " Error al obtener los datos del usuario:")
-            println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
         } finally {
             resultSet.close()
             statement.close()
@@ -138,6 +143,8 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 val statement = connection.prepareStatement(query)
                 if (rol == Roles.ADMINISTRADOR) {
                     statement.setInt(1, 1)
+                } else if (rol == Roles.ADMIN_NoJuego) {
+                    statement.setInt(1,2)
                 } else {
                     statement.setInt(1, 0)
                 }
@@ -148,7 +155,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 println(MenuColores.ok() + " Permisos modificados con éxito")
             } catch (e: SQLException) {
                 println(MenuColores.error() + " Error al cambiar el permiso del usuario:")
-                println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+                println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
             }
         } else {
             println(MenuColores.error() + " El usuario no existe.")
@@ -178,10 +185,10 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
 
                 statement.executeUpdate()
                 statement.close()
-                println(MenuColores.ok() + " Usuario " + MenuColores.set(datosNuevos.nombre, MenuColores.magenta) +" modificado con éxito")
+                println(MenuColores.ok() + " Usuario " + MenuColores.magenta(datosNuevos.nombre) +" modificado con éxito")
             } catch (e: SQLException) {
                 println(MenuColores.error() + " Error al modificar el usuario:")
-                println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+                println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
             }
         } else {
             println(MenuColores.error() + " El usuario no existe.")
@@ -221,7 +228,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
             }
         } catch (e: SQLException) {
             println(MenuColores.error() + " Error al obtener los datos de los usuarios:")
-            println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
         } finally {
             resultSet.close()
             statement.close()
@@ -254,7 +261,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 println(MenuColores.error() + " El historial ya existe.")
             } else {
                 println(MenuColores.error() + " Error al añadir el historial:")
-                println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+                println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
             }
         }
     }
@@ -277,10 +284,10 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 statement.close()
             } catch (e: SQLException) {
                 println(MenuColores.error() + " Error al eliminar al historial:")
-                println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+                println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
             }
         } else {
-            println(MenuColores.set("[ERROR]", MenuColores.rojo) + " El historial no existe.")
+            println(MenuColores.error() + " El historial no existe.")
         }
     }
 
@@ -308,7 +315,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
             }
         } catch (e: SQLException) {
             println(MenuColores.error() + " Error al obtener los datos del historial:")
-            println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
         } finally {
             resultSet.close()
             statement.close()
@@ -341,7 +348,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
             }
         } catch (e: SQLException) {
             println(MenuColores.error() + " Error al obtener los datos del historial:")
-            println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
         } finally {
             resultSet.close()
             statement.close()
@@ -379,7 +386,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 }
             } catch (e: SQLException) {
                 println(MenuColores.error() + " Error al modificar el historial:")
-                println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+                println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
             }
         } else {
             println(MenuColores.error() + " El historial no existe.")
@@ -408,7 +415,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
             }
         } catch (e: SQLException) {
             println(MenuColores.error() + " Error al obtener los datos del historial:")
-            println(MenuColores.set("[${e.errorCode}]", MenuColores.amarillo) +  "${e.message}")
+            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
         } finally {
             resultSet.close()
             statement.close()

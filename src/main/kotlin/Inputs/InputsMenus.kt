@@ -20,11 +20,11 @@ class InputsMenus {
                 opt = readln().toIntOrNull()
 
                 if (opt == null) {
-                    println(MenuColores.set(MenuColores.error() + " El numero no puede ser " + MenuColores.set("nulo", MenuColores.magenta) + "."))
+                    println(MenuColores.error() + " El numero no puede ser " + MenuColores.magenta("nulo") + ".")
                     valido = false
                 } else if (opt !in 1..numeroOpciones) {
-                    println(MenuColores.set(MenuColores.error() + " La opción " + MenuColores.set(opt.toString(), MenuColores.magenta) + " está fuera del rango válido."))
-                    println(MenuColores.set("Sugerencia:", MenuColores.azul) + " Prueba a introducir un número entre el rango " + MenuColores.set("[1-$numeroOpciones]", MenuColores.cian))
+                    println(MenuColores.error() + " La opción " + MenuColores.magenta(opt.toString()) + " está fuera del rango válido.")
+                    println(MenuColores.azul("Sugerencia:") + " Prueba a introducir un número entre el rango " + MenuColores.cian("[1-$numeroOpciones]"))
                     valido = false
                 }
             } while (!valido)

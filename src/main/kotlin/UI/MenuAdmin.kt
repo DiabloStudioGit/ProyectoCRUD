@@ -19,34 +19,35 @@ class MenuAdmin {
 
     fun mostrarMenu(): Int {
 
-        println(MenuColores.set("@======", MenuColores.azul) + "¿Qué Desea Hacer?" + MenuColores.set("======@", MenuColores.azul))
-        println(MenuColores.set("|                             |", MenuColores.azul))
-        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[1]", MenuColores.magenta) + "  Añadir Usuario" + MenuColores.set("       |", MenuColores.azul))
-        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[2]", MenuColores.magenta) + "  Mostrar Usuarios" + MenuColores.set("     |", MenuColores.azul))
-        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[3]", MenuColores.magenta) + "  Buscar Usuario" + MenuColores.set("       |", MenuColores.azul))
-        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[4]", MenuColores.magenta) + "  Borrar Usuario" + MenuColores.set("       |", MenuColores.azul))
-        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[5]", MenuColores.magenta) + "  Modificar Usuario" + MenuColores.set("    |", MenuColores.azul))
-        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[6]", MenuColores.magenta) + "  Cambiar Permisos" + MenuColores.set("     |", MenuColores.azul))
-        println(MenuColores.set("|   ", MenuColores.azul) + MenuColores.set("[7]", MenuColores.magenta) + "  Salir" + MenuColores.set("                |", MenuColores.azul))
-        println(MenuColores.set("|                             |", MenuColores.azul))
-        println(MenuColores.set("@=============================@", MenuColores.azul))
+        println(MenuColores.azul("@======") + "¿Qué Desea Hacer?" + MenuColores.azul("======@"))
+        println(MenuColores.azul("|                             |"))
+        println(MenuColores.azul("|   ") + MenuColores.magenta("[1]") + "  Añadir Usuario" + MenuColores.azul("       |"))
+        println(MenuColores.azul("|   ") + MenuColores.magenta("[2]") + "  Mostrar Usuarios" + MenuColores.azul("     |"))
+        println(MenuColores.azul("|   ") + MenuColores.magenta("[3]") + "  Buscar Usuario" + MenuColores.azul("       |"))
+        println(MenuColores.azul("|   ") + MenuColores.magenta("[4]") + "  Borrar Usuario" + MenuColores.azul("       |"))
+        println(MenuColores.azul("|   ") + MenuColores.magenta("[5]") + "  Modificar Usuario" + MenuColores.azul("    |"))
+        println(MenuColores.azul("|   ") + MenuColores.magenta("[6]") + "  Cambiar Permisos" + MenuColores.azul("     |"))
+        println(MenuColores.azul("|   ") + MenuColores.magenta("[7]") + "  Salir" + MenuColores.azul("                |"))
+        println(MenuColores.azul("|                             |"))
+        println(MenuColores.azul("@=============================@"))
 
         return InputsMenus.seleccionarOpcionMenu(7)
     }
 
-    fun menuAdmin(): Boolean{
+    fun menuAdmin() {
         var opcion = true
 
-        when (mostrarMenu()) {
-            1 -> anadirUsuario()
-            2 -> mostrarUsuarios()
-            3 -> buscarUsuario()
-            4 -> borrarUsuario()
-            5 -> modificarUsuario()
-            6 -> cambiarPermisosUsuario()
-            7 -> opcion = false
+        while (opcion) {
+            when (mostrarMenu()) {
+                1 -> anadirUsuario()
+                2 -> mostrarUsuarios()
+                3 -> buscarUsuario()
+                4 -> borrarUsuario()
+                5 -> modificarUsuario()
+                6 -> cambiarPermisosUsuario()
+                7 -> opcion = false
+            }
         }
-        return opcion
     }
 
     fun anadirUsuario(){
@@ -75,14 +76,14 @@ class MenuAdmin {
             val modificaciones = usuario.copy()
 
             println("Usuario seleccionado: ${usuario.nombre}")
-            println(MenuColores.set("@====", MenuColores.rojo) + "¿Qué Desea Modificar?" + MenuColores.set("====@", MenuColores.rojo))
-            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[1]", MenuColores.amarillo) + "  Nombre" + MenuColores.set("               |", MenuColores.rojo))
-            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[2]", MenuColores.amarillo) + "  Apellido" + MenuColores.set("             |", MenuColores.rojo))
-            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[3]", MenuColores.amarillo) + "  Edad" + MenuColores.set("                 |", MenuColores.rojo))
-            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[4]", MenuColores.amarillo) + "  Email" + MenuColores.set("                |", MenuColores.rojo))
-            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[5]", MenuColores.amarillo) + "  Contraseña" + MenuColores.set("           |", MenuColores.rojo))
-            println(MenuColores.set("|   ", MenuColores.rojo) + MenuColores.set("[6]", MenuColores.amarillo) + "  Salir" + MenuColores.set("                |", MenuColores.rojo))
-            println(MenuColores.set("@=============================@", MenuColores.rojo))
+            println(MenuColores.rojo("@====") + "¿Qué Desea Modificar?" + MenuColores.rojo("====@"))
+            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[1]") + "  Nombre" + MenuColores.rojo("               |"))
+            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[2]") + "  Apellido" + MenuColores.rojo("             |"))
+            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[3]") + "  Edad" + MenuColores.rojo("                 |"))
+            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[4]") + "  Email" + MenuColores.rojo("                |"))
+            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[5]") + "  Contraseña" + MenuColores.rojo("           |"))
+            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[6]") + "  Salir" + MenuColores.rojo("                |"))
+            println(MenuColores.rojo("@=============================@"))
 
             val opcion = InputsMenus.seleccionarOpcionMenu(6)
             when (opcion) {

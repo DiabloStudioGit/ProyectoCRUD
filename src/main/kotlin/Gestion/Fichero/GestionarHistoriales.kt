@@ -42,7 +42,7 @@ class GestionarHistoriales : IGestorHistoriales {
         if (this.historiales.contains(historial)) {
             this.historiales.remove(historial)
             this.guardarHistoriales()
-            println(MenuColores.ok() + " Historial " + MenuColores.set("borrado", MenuColores.rojo) + " correctamente.")
+            println(MenuColores.ok() + " Historial " + MenuColores.rojo("borrado") + " correctamente.")
         }else {
             println(MenuColores.error() + " No se ha podido encontrar el historial")
         }

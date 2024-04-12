@@ -21,11 +21,11 @@ class LogicaJuego {
      */
     fun hasAcertado(historial: Historial, numeroJugador: Int): Historial {
         if (numeroJugador == crearNumeroAleatorio()) {
-            println("!Has " + MenuColores.set("acertado", MenuColores.verde) + "!")
+            println("!Has " + MenuColores.verde("acertado") + "!")
             historial.partidasGanadas++
             historial.partidasJugadas++
         } else {
-            println("No has " + MenuColores.set("acertado", MenuColores.rojo) + " :(")
+            println("No has " + MenuColores.rojo("acertado") + " :(")
             historial.partidasJugadas++
         }
         return historial

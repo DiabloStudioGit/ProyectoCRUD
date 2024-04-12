@@ -21,17 +21,17 @@ fun main() {
     val gestor = InputsMenus.seleccionarOpcionMenu(2)
     when (gestor) {
         1 -> {
-            println("Se va a proceder con el " + MenuColores.set("sistema de ficheros.", MenuColores.azul))
+            println("Se va a proceder con el " + MenuColores.azul("sistema de ficheros."))
             gestionarUsuarios = GestionarUsuarios()
         }
         else -> {
             try{
                 gestionarUsuarios = GestionarBaseDatos()
-                println("Se va a proceder con el sistema de " + MenuColores.set("Base de Datos.", MenuColores.azul))
+                println("Se va a proceder con el sistema de " + MenuColores.azul("Base de Datos."))
                 Gestor.eleccion = true
             }catch (ex : SQLException) {
                 println(MenuColores.error() + " No se ha podido conectar con la base de datos.")
-                println(MenuColores.info() + " Se va a proceder con el " + MenuColores.set("sistema de ficheros.", MenuColores.azul))
+                println(MenuColores.info() + " Se va a proceder con el " + MenuColores.azul("sistema de ficheros."))
                 gestionarUsuarios = GestionarUsuarios()
             }
         }
@@ -61,13 +61,15 @@ fun main() {
                             }
                             2 -> {
                                 val menuAdmin = MenuAdmin(gestionarUsuarios)
-                                do {
-                                    val continuar = menuAdmin.menuAdmin()
-                                }while (continuar)
+                                menuAdmin.menuAdmin()
                             }
                         }
+                    } else if (usuario.rol == Roles.ADMIN_NoJuego) {
+                        //Si el usuario es Administrador NO ESTANDAR, va al menuAdmin
+                        val menuAdmin = MenuAdmin(gestionarUsuarios)
+                        menuAdmin.menuAdmin()
+
                     } else {
-                        //Si el usuario es Estandar, va al juego
                         menuJuego.juego()
                     }
                 }

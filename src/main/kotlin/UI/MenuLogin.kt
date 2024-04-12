@@ -15,13 +15,13 @@ class MenuLogin {
     }
 
     fun imprimirOpciones() {
-        println(MenuColores.set("@======", MenuColores.cian) + "¿Que Desea Hacer?" + MenuColores.set("======@",MenuColores.cian))
-        println(MenuColores.set("|                             |", MenuColores.cian))
-        println(MenuColores.set("|     ", MenuColores.cian) + MenuColores.set("[1]", MenuColores.amarillo) + "  Iniciar Sesion" + MenuColores.set("     |", MenuColores.cian))
-        println(MenuColores.set("|       ", MenuColores.cian) + MenuColores.set("[2]", MenuColores.amarillo) + "  Registrarse" + MenuColores.set("      |", MenuColores.cian))
-        println(MenuColores.set("|          ", MenuColores.cian) + MenuColores.set("[3]", MenuColores.amarillo) + "  Salir" + MenuColores.set("         |", MenuColores.cian))
-        println(MenuColores.set("|                             |", MenuColores.cian))
-        println(MenuColores.set("@=============================@", MenuColores.cian))
+        println(MenuColores.cian("@======") + "¿Que Desea Hacer?" + MenuColores.cian("======@"))
+        println(MenuColores.cian("|                             |"))
+        println(MenuColores.cian("|     ") + MenuColores.amarillo("[1]") + "  Iniciar Sesion" + MenuColores.cian("     |"))
+        println(MenuColores.cian("|       ") + MenuColores.amarillo("[2]") + "  Registrarse" + MenuColores.cian("      |"))
+        println(MenuColores.cian("|          ") + MenuColores.amarillo("[3]") + "  Salir" + MenuColores.cian("         |"))
+        println(MenuColores.cian("|                             |"))
+        println(MenuColores.cian("@=============================@"))
     }
 
     fun iniciarSesion() : Usuario? {
@@ -40,12 +40,12 @@ class MenuLogin {
     fun pedirAdmin(correoAdmin: String): Int {
 
         println("Administrador: " + MenuColores.random(correoAdmin))
-        println(MenuColores.set("@======", MenuColores.amarillo) + "¿Que Desea Hacer?" + MenuColores.set("======@", MenuColores.amarillo))
-        println(MenuColores.set("|                             |", MenuColores.amarillo))
-        println(MenuColores.set("|         ", MenuColores.amarillo) + MenuColores.set("[1]", MenuColores.magenta) + "  Jugar" + MenuColores.set("          |", MenuColores.amarillo))
-        println(MenuColores.set("|     ", MenuColores.amarillo) + MenuColores.set("[2]", MenuColores.magenta) + "  Administracion" + MenuColores.set("     |", MenuColores.amarillo))
-        println(MenuColores.set("|                             |", MenuColores.amarillo))
-        println(MenuColores.set("@=============================@", MenuColores.amarillo))
+        println(MenuColores.amarillo("@======") + "¿Que Desea Hacer?" + MenuColores.amarillo("======@"))
+        println(MenuColores.amarillo("|                             |"))
+        println(MenuColores.amarillo("|         ") + MenuColores.magenta("[1]") + "  Jugar" + MenuColores.amarillo("          |"))
+        println(MenuColores.amarillo("|     ") + MenuColores.magenta("[2]") + "  Administracion" + MenuColores.amarillo("     |"))
+        println(MenuColores.amarillo("|                             |"))
+        println(MenuColores.amarillo("@=============================@"))
 
         return InputsMenus.seleccionarOpcionMenu(2)
     }
@@ -54,22 +54,22 @@ class MenuLogin {
         fun bienvenida(){
             println()
             println("[Proyecto" + MenuColores.random("CRUD") + "]")
-            println(MenuColores.set((" ██████╗   ██████╗    ██╗   ██╗   ██████╗    "), MenuColores.rojo))
-            println(MenuColores.set(("██╔════╝   ██╔══██╗   ██║   ██║   ██╔══██╗   "), MenuColores.amarillo))
-            println(MenuColores.set(("██║        ██████╔╝   ██║   ██║   ██║  ██║   "), MenuColores.verde))
-            println(MenuColores.set(("██║        ██╔══██╗   ██║   ██║   ██║  ██║   "), MenuColores.cian))
-            println(MenuColores.set(("╚██████╗██╗██║  ██║██╗╚██████╔╝██╗██████╔╝██╗"), MenuColores.azul))
-            println(MenuColores.set((" ╚═════╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═════╝ ╚═╝"), MenuColores.magenta))
-            println(".:" + MenuColores.set("Carlos Canal", MenuColores.rojo) + " / " + MenuColores.set("Miguel León", MenuColores.amarillo) + " / " + MenuColores.set("Manuel Santos", MenuColores.verde) + " / " + MenuColores.set("Jose García", MenuColores.cian) + " / " + MenuColores.set("David Zamora", MenuColores.magenta) + ":.")
+            println(MenuColores.rojo((" ██████╗   ██████╗    ██╗   ██╗   ██████╗    ")))
+            println(MenuColores.amarillo(("██╔════╝   ██╔══██╗   ██║   ██║   ██╔══██╗   ")))
+            println(MenuColores.verde(("██║        ██████╔╝   ██║   ██║   ██║  ██║   ")))
+            println(MenuColores.cian(("██║        ██╔══██╗   ██║   ██║   ██║  ██║   ")))
+            println(MenuColores.azul(("╚██████╗██╗██║  ██║██╗╚██████╔╝██╗██████╔╝██╗")))
+            println(MenuColores.magenta((" ╚═════╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═════╝ ╚═╝")))
+            println(".:" + MenuColores.rojo("Carlos Canal") + " / " + MenuColores.amarillo("Miguel León") + " / " + MenuColores.verde("Manuel Santos") + " / " + MenuColores.cian("Jose García") + " / " + MenuColores.magenta("David Zamora") + ":.")
         }
 
         fun menuGestor(){
-            println(MenuColores.set("@==", MenuColores.magenta) + "Elija un " + MenuColores.set("Sistema de datos", MenuColores.azul) + MenuColores.set("==@", MenuColores.magenta))
-            println(MenuColores.set("|                             |", MenuColores.magenta))
-            println(MenuColores.set("|     ", MenuColores.magenta) + MenuColores.set("[1]", MenuColores.cian) +"   Sistema Ficheros" + MenuColores.set("  |", MenuColores.magenta))
-            println(MenuColores.set("|       ", MenuColores.magenta) + MenuColores.set("[2]", MenuColores.cian) + "  Base de Datos" + MenuColores.set("    |", MenuColores.magenta))
-            println(MenuColores.set("|                             |", MenuColores.magenta))
-            println(MenuColores.set("@=============================@", MenuColores.magenta))
+            println(MenuColores.magenta("@==") + "Elija un " + MenuColores.azul("Sistema de datos") + MenuColores.magenta("==@"))
+            println(MenuColores.magenta("|                             |"))
+            println(MenuColores.magenta("|     ") + MenuColores.cian("[1]") +"   Sistema Ficheros" + MenuColores.magenta("  |"))
+            println(MenuColores.magenta("|       ") + MenuColores.cian("[2]") + "  Base de Datos" + MenuColores.magenta("    |"))
+            println(MenuColores.magenta("|                             |"))
+            println(MenuColores.magenta("@=============================@"))
         }
     }
 }

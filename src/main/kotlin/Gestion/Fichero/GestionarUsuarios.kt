@@ -47,7 +47,7 @@ class GestionarUsuarios : IGestorUsuarios {
         if (this.usuarios.contains(usuario)) {
             this.usuarios.remove(usuario)
             this.guardarUsuarios()
-            println(MenuColores.ok() + " Usuario " + MenuColores.set("borrado", MenuColores.rojo) + " correctamente.")
+            println(MenuColores.ok() + " Usuario " + MenuColores.rojo("borrado") + " correctamente.")
         }else {
             println(MenuColores.error() + " No se ha podido encontrar el usuario.")
         }
@@ -114,7 +114,7 @@ class GestionarUsuarios : IGestorUsuarios {
 
         if (exito) {
             this.guardarUsuarios()
-            println(MenuColores.ok() + " Se ha modificado el usuario " + MenuColores.set(datosNuevos.nombre, MenuColores.magenta) + " correctamente.")
+            println(MenuColores.ok() + " Se ha modificado el usuario " + MenuColores.magenta(datosNuevos.nombre) + " correctamente.")
         }else {
             println(MenuColores.error() + " No se ha encontrado el usuario ${usuarioOriginal.nombre}.")
         }
