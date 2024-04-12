@@ -37,9 +37,12 @@ fun main() {
         }
     }
 
-    //Añade un administrador para Debug
+    //Añade un administrador y un Staff para Debug
     if (gestionarUsuarios.obtenerUsuario("admin@test.es") == null) {
         gestionarUsuarios.añadirUsuario(Usuario("Admin", "Root", 0, "admin@test.es", "12345", Roles.ADMINISTRADOR))
+    }
+    if (gestionarUsuarios.obtenerUsuario("staff@test.es") == null) {
+        gestionarUsuarios.añadirUsuario(Usuario("Staff", "Root", 0, "staff@test.es", "12345", Roles.ADMIN_NoJuego))
     }
 
     val menuLogin = MenuLogin(gestionarUsuarios)

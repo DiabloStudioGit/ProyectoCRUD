@@ -1,6 +1,9 @@
 package Juego
 
 import UI.MenuColores
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 
 class LogicaJuego {
@@ -38,11 +41,12 @@ class LogicaJuego {
      * @return El porcentaje de partidas ganadas como un valor decimal.
      */
     fun calculoPorcentajeVictorias(historial: Historial): Double {
-        return if(historial.partidasJugadas != 0) {
-            ((historial.partidasGanadas.toDouble() / historial.partidasJugadas.toDouble()) * 100)
+        var porcentaje : Double
+        if(historial.partidasJugadas != 0) {
+            porcentaje = (DecimalFormat("#.##", DecimalFormatSymbols(Locale.US)).format((historial.partidasGanadas.toDouble() / historial.partidasJugadas.toDouble()) * 100)).toDouble()
         } else {
-            0.0
+            porcentaje = 0.0
         }
-
+        return porcentaje
     }
 }

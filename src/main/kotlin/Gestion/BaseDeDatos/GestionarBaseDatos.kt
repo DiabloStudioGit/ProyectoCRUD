@@ -11,6 +11,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 import javax.management.relation.Role
+import kotlin.math.log
 
 
 class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
@@ -30,7 +31,6 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
      * @param usuario El objeto Usuario que se va a añadir a la base de datos.
      */
     override fun añadirUsuario(usuario : Usuario) {
-        var historial = Historial(usuario.email, 0, 0, 0)
         val query = "INSERT INTO usuarios (nombre, apellidos, edad, email, password, rol) VALUES (?, ?, ?, ?, ?, ?)"
 
         try {
@@ -58,7 +58,6 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
             }
         }
-        añadirHistorial(historial)
     }
 
     /**
@@ -295,9 +294,10 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
      * Obtiene el historial de un jugador desde la base de datos.
      *
      * @param usuario El objeto Usuario del cual se desea obtener el historial.
+     * @param info Devuelve información en caso de error.
      * @return El objeto Historial del jugador correspondiente, o null si no se encuentra en la base de datos.
      */
-    override fun obtenerHistorial(usuario: Usuario): Historial? {
+    override fun obtenerHistorial(usuario: Usuario, info: Boolean): Historial? {
         val sql = "SELECT * FROM historial WHERE email = ?"
         val statement = connection.prepareStatement(sql)
         statement.setString(1, usuario.email)
@@ -312,10 +312,16 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
                 val puntos = resultSet.getInt("puntos")
 
                 historial = Historial(usuario.email, partidasJugadas, partidasGanadas, puntos)
+            } else {
+                if (info) {
+                    println(MenuColores.error() + " No se ha encontrado el historial.")
+                }
             }
         } catch (e: SQLException) {
-            println(MenuColores.error() + " Error al obtener los datos del historial:")
-            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
+            if (info) {
+                println(MenuColores.error() + " Error al obtener los datos del historial:")
+                println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
+            }
         } finally {
             resultSet.close()
             statement.close()

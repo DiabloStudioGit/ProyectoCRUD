@@ -31,10 +31,8 @@ class GestionarUsuarios : IGestorUsuarios {
      */
     override fun añadirUsuario(usuario : Usuario) {
         var gestionarHistorial = GestionarHistoriales()
-        var historial = Historial(usuario.email, 0, 0, 0)
         this.usuarios.add(usuario)
         this.guardarUsuarios()
-        gestionarHistorial.añadirHistorial(historial)
         println(MenuColores.ok() + " Usuario \"${usuario.nombre}\" creado correctamente.")
     }
 
@@ -69,7 +67,7 @@ class GestionarUsuarios : IGestorUsuarios {
         }
 
         if (usuarioBuscado == null) {
-            println(MenuColores.error() + " No se ha encontrado el usuario.")
+            println(MenuColores.error() + " No se ha encontrado el usuario .")
         }
 
         return usuarioBuscado

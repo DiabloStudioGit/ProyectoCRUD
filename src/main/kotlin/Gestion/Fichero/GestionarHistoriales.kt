@@ -52,9 +52,10 @@ class GestionarHistoriales : IGestorHistoriales {
      * Devuelve el historial con el usuario en cuestion.
      *
      * @param usuario Usuario a buscar entre los historailes.
+     * @param info Devuelve información en caso de error.
      * @return El historial en caso de encontrarlo o null en caso opuesto.
      */
-    override fun obtenerHistorial(usuario : Usuario) : Historial? {
+    override fun obtenerHistorial(usuario : Usuario, info: Boolean) : Historial? {
         var historialBuscado : Historial? = null
 
         for (historial in this.historiales) {
@@ -64,7 +65,9 @@ class GestionarHistoriales : IGestorHistoriales {
         }
 
         if (historialBuscado == null) {
-            println(MenuColores.error() + " No se ha encontrado el historial.")
+            if (info) {
+                println(MenuColores.error() + " No se ha encontrado el historial.")
+            }
         }
 
         return historialBuscado
