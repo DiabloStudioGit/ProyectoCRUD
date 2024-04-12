@@ -1,8 +1,6 @@
 package Gestion.BaseDeDatos
 
-import Gestion.Fichero.GestionarHistoriales
-import Gestion.IGestorHistoriales
-import Gestion.IGestorUsuarios
+import Gestion.*
 import Juego.Historial
 import UI.MenuColores
 import Usuario.Roles
@@ -10,11 +8,11 @@ import Usuario.Usuario
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
-import javax.management.relation.Role
-import kotlin.math.log
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
-class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
+class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
     private val connection : Connection
 
     constructor() {
@@ -428,5 +426,109 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales {
         }
 
         return listaHistorial
+    }
+
+    //Logs
+
+    /**
+     * Añade un nuevo registro a la base de datos.
+     *
+     * @param log El objeto Log que se va a añadir a la base de datos.
+     */
+    override fun añadirLog(log: Log) {
+        val query = "INSERT INTO logs (usuario, fecha, accion) VALUES (?, ?, ?)"
+
+        try {
+            val statement = connection.prepareStatement(query)
+            statement.setString(1, log.email)
+            statement.setString(2, log.fecha)
+            statement.setString(3, log.accion)
+
+            statement.executeUpdate()
+            statement.close()
+        } catch (e: SQLException) {
+            println(MenuColores.error() + " Error al añadir el registro:")
+            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
+        }
+    }
+
+    /**
+     * Obtiene los logs de un usuario de la base de datos según su dirección de correo electrónico.
+     *
+     * @param email La dirección de correo electrónico del usuario que se desea obtener.
+     * @return Devuelve un Array con los logs en caso de encontrarlo o null si no se encuentra en la Basd de Datos.
+     */
+    override fun obtenerLog(email: String): ArrayList<Log>? {
+        val statement = connection.prepareStatement("SELECT * FROM logs WHERE email = ?")
+        statement.setString(1, email)
+        val resultSet = statement.executeQuery()
+
+        val logsEncontrados = ArrayList<Log>()
+
+        try {
+            while (resultSet.next()) {
+                val emailLog = resultSet.getString("email")
+                val fechaLog = resultSet.getString("fecha")
+                val accionLog = resultSet.getString("accion")
+
+                val log = Log(emailLog, fechaLog, accionLog)
+                logsEncontrados.add(log)
+            }
+        } catch (e: SQLException) {
+            println(MenuColores.error() + " Error al obtener los datos del registro:")
+            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
+        } finally {
+            resultSet.close()
+            statement.close()
+        }
+
+        if (logsEncontrados.isNotEmpty()) {
+            return logsEncontrados
+        } else {
+            return null
+        }
+    }
+
+    /**
+     * Obtiene todos los registros almacenados en la base de datos.
+     *
+     * @return ArrayList de objetos Log que representan a todos los registros almacenados en la base de datos.
+     */
+    override fun obtenerLogs(): ArrayList<Log> {
+        val listaLogs = ArrayList<Log>()
+
+        val query = "SELECT * FROM logs"
+        val statement = connection.prepareStatement(query)
+        val resultSet = statement.executeQuery()
+
+        try {
+            while (resultSet.next()) {
+                val email = resultSet.getString("email")
+                val fecha = resultSet.getString("fecha")
+                val accion = resultSet.getString("accion")
+
+                val log = Log(email, fecha, accion)
+                listaLogs.add(log)
+            }
+        } catch (e: SQLException) {
+            println(MenuColores.error() + " Error al obtener los datos de los registros:")
+            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
+        } finally {
+            resultSet.close()
+            statement.close()
+        }
+
+        return listaLogs
+    }
+
+    /**
+     * Muestra todos los registros almacenados en la base de datos.
+     * Imprime los detalles de cada registro en la consola, incluyendo email, fecha y accion.
+     */
+    override fun mostarLogs() {
+        println("Logs:")
+        obtenerLogs().forEachIndexed { index, log ->
+            println("${index + 1}. Usuario: ${log.email}, Fecha: ${log.fecha}, Accion: ${log.accion}")
+        }
     }
 }
