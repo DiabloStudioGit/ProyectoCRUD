@@ -1,20 +1,24 @@
 package UI
 
+import Gestion.*
 import Gestion.BaseDeDatos.GestionarBaseDatos
 import Gestion.Fichero.GestionarHistoriales
-import Gestion.Gestor
-import Gestion.IGestorHistoriales
-import Gestion.IGestorUsuarios
+import Gestion.Fichero.GestionarLogs
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
 import Usuario.Usuario
-import java.awt.Menu
 
 class MenuAdmin {
     val gestUsuarios : IGestorUsuarios
+    var gestLogs : IGestorLogs
 
     constructor(gestor : IGestorUsuarios) {
         this.gestUsuarios = gestor
+        gestLogs = if (Gestor.eleccion) {
+            GestionarBaseDatos()
+        } else {
+            GestionarLogs()
+        }
     }
 
     fun mostrarMenu(): Int {
@@ -34,7 +38,7 @@ class MenuAdmin {
         return InputsMenus.seleccionarOpcionMenu(7)
     }
 
-    fun menuAdmin() {
+    fun menuAdmin(correo : String) {
         var opcion = true
 
         while (opcion) {
@@ -45,7 +49,11 @@ class MenuAdmin {
                 4 -> borrarUsuario()
                 5 -> modificarUsuario()
                 6 -> cambiarPermisosUsuario()
-                7 -> opcion = false
+                7 -> {
+                    val logCerrarSesion = Log(correo, Gestor.fechaActual(), "Sesion de usuario cerrada.")
+                    gestLogs.añadirLog(logCerrarSesion)
+                    opcion = false
+                }
             }
         }
     }

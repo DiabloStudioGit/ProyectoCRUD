@@ -42,10 +42,10 @@ class GestionarLogs : IGestorLogs {
             }
         }
 
-        if (logsEncontrados.isEmpty()) {
-            return null
+        return if (logsEncontrados.isEmpty()) {
+            null
         } else {
-            return logsEncontrados
+            logsEncontrados
         }
     }
 
@@ -65,6 +65,7 @@ class GestionarLogs : IGestorLogs {
                 objectInputStream = ObjectInputStream(fileInputStream)
                 logsExistentes = objectInputStream.readObject() as ArrayList<Log>
             } catch (exception : StreamCorruptedException) {
+                println(MenuColores.error() + " Error al obtener los registros.")
             } finally {
                 objectInputStream?.close()
             }
@@ -83,6 +84,20 @@ class GestionarLogs : IGestorLogs {
             }
         } else {
             println(MenuColores.info() + " No hay logs para mostrar.")
+        }
+    }
+
+    override fun modificarLog(correoOriginal: String, correoNuevo: String) {
+        var exito = false
+        for (i in this.logs.indices) {
+            if (this.logs[i].email == correoOriginal) {
+                this.logs[i].email = correoNuevo
+                exito = true
+            }
+
+            if (!exito) {
+                println(MenuColores.error() + " No se ha podido modificar el Log")
+            }
         }
     }
 

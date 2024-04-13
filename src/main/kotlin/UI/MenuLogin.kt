@@ -1,6 +1,11 @@
 package UI
 
+import Gestion.BaseDeDatos.GestionarBaseDatos
+import Gestion.Fichero.GestionarLogs
+import Gestion.Gestor
+import Gestion.IGestorLogs
 import Gestion.IGestorUsuarios
+import Gestion.Log
 import Inputs.InputsLogin
 import Inputs.InputsMenus
 import Usuario.Usuario
@@ -8,10 +13,16 @@ import Usuario.Usuario
 class MenuLogin {
 
     val gestionarUsuarios : IGestorUsuarios
+    val gestionarLogs : IGestorLogs
     val inputsLogin = InputsLogin()
 
     constructor(gestor : IGestorUsuarios) {
         this.gestionarUsuarios = gestor
+        gestionarLogs = if (Gestor.eleccion) {
+            GestionarBaseDatos()
+        } else {
+            GestionarLogs()
+        }
     }
 
     fun imprimirOpciones() {
@@ -27,13 +38,20 @@ class MenuLogin {
     fun iniciarSesion() : Usuario? {
         val correo = inputsLogin.ingresoEmail()
         val usuario = gestionarUsuarios.obtenerUsuario(correo)
+        var logSesion : Log
+
         if (usuario == null) {
             println(MenuColores.error() + " No hay ningun usuario registrado con ese correo")
+            logSesion = Log(correo, Gestor.fechaActual(), "Intento fallido: No existe el correo.")
         }else if (inputsLogin.ingresoContrasenia(usuario)) {
             println(MenuColores.ok() + " Iniciando sesión...")
+            logSesion = Log(correo, Gestor.fechaActual(), "Inicio de Sesion correcto.")
         } else {
             println(MenuColores.error() + " Error al iniciar sesión")
+            logSesion = Log(correo, Gestor.fechaActual(), "Intento fallido: Error al Iniciar Sesion.")
         }
+        gestionarLogs.añadirLog(logSesion)
+
         return usuario
     }
 

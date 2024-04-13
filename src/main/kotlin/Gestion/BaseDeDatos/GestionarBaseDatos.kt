@@ -8,8 +8,6 @@ import Usuario.Usuario
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
@@ -38,13 +36,19 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
             statement.setInt(3, usuario.edad)
             statement.setString(4, usuario.email)
             statement.setString(5, usuario.contrasenia)
-            if (usuario.rol == Roles.ADMINISTRADOR) {
-                statement.setInt(6,1)
-            } else if (usuario.rol == Roles.ADMIN_NoJuego) {
-                statement.setInt(6, 2)
-            } else {
-                statement.setInt(6, 0)
+            when (usuario.rol) {
+                Roles.ADMINISTRADOR -> {
+                    statement.setInt(6,1)
+                }
+                Roles.ADMIN_NoJuego -> {
+                    statement.setInt(6, 2)
+                }
+                else -> {
+                    statement.setInt(6, 0)
+                }
             }
+            val logRegistro = Log(usuario.email, Gestor.fechaActual(), "Usuario creado")
+            this.añadirLog(logRegistro)
 
             statement.executeUpdate()
             statement.close()
@@ -72,8 +76,16 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
                 val statement = connection.prepareStatement(query)
                 statement.setString(1, usuario.email)
 
+                val logEliminar = Log(usuario.email, Gestor.fechaActual(), "Usuario eliminado")
+                this.añadirLog(logEliminar)
+
                 statement.executeUpdate()
                 statement.close()
+
+                val historial = this.obtenerHistorial(usuario, false)
+                if (historial != null) {
+                    this.borrarHistorial(historial)
+                }
             } catch (e: SQLException) {
                 println(MenuColores.error() + " Error al " + MenuColores.rojo("eliminar") + " el usuario:")
                 println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
@@ -138,14 +150,21 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
 
             try {
                 val statement = connection.prepareStatement(query)
-                if (rol == Roles.ADMINISTRADOR) {
-                    statement.setInt(1, 1)
-                } else if (rol == Roles.ADMIN_NoJuego) {
-                    statement.setInt(1,2)
-                } else {
-                    statement.setInt(1, 0)
+                when (rol) {
+                    Roles.ADMINISTRADOR -> {
+                        statement.setInt(1, 1)
+                    }
+                    Roles.ADMIN_NoJuego -> {
+                        statement.setInt(1,2)
+                    }
+                    else -> {
+                        statement.setInt(1, 0)
+                    }
                 }
                 statement.setString(2, usuario.email)
+
+                val logPermiso = Log(usuario.email, Gestor.fechaActual(), "Permisos del usuario modificados.")
+                this.añadirLog(logPermiso)
 
                 statement.executeUpdate()
                 statement.close()
@@ -179,6 +198,9 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
                 statement.setString(4, datosNuevos.email)
                 statement.setString(5, datosNuevos.contrasenia)
                 statement.setString(6, usuarioOriginal.email)
+
+                val logModificacion = Log(datosNuevos.email, Gestor.fechaActual(), " Datos del usuario modificados.")
+                this.añadirLog(logModificacion)
 
                 statement.executeUpdate()
                 statement.close()
@@ -251,6 +273,9 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
             statement.setInt(3, historial.partidasGanadas)
             statement.setInt(4, historial.puntos)
 
+            val logRegistro = Log(historial.emailJugador, Gestor.fechaActual(), "Historial de juego creado")
+            this.añadirLog(logRegistro)
+
             statement.executeUpdate()
             statement.close()
         } catch (e: SQLException) {
@@ -276,6 +301,9 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
             try {
                 val statement = connection.prepareStatement(query)
                 statement.setString(1, historial.emailJugador)
+
+                val logEliminar = Log(historial.emailJugador, Gestor.fechaActual(), "Historial de juego eliminado")
+                this.añadirLog(logEliminar)
 
                 statement.executeUpdate()
                 statement.close()
@@ -482,10 +510,10 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
             statement.close()
         }
 
-        if (logsEncontrados.isNotEmpty()) {
-            return logsEncontrados
+        return if (logsEncontrados.isNotEmpty()) {
+            logsEncontrados
         } else {
-            return null
+            null
         }
     }
 
@@ -529,6 +557,30 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
         println("Logs:")
         obtenerLogs().forEachIndexed { index, log ->
             println("${index + 1}. Usuario: ${log.email}, Fecha: ${log.fecha}, Accion: ${log.accion}")
+        }
+    }
+
+    /**
+     * Modifica los registros con el nuevo correo del Usuario.
+     *
+     * @param correoOriginal Registro a modificar.
+     * @param correoNuevo Datos nuevos para el Registro a modificar.
+     */
+    override fun modificarLog(correoOriginal : String, correoNuevo : String) {
+        val query = "UPDATE logs SET email = ? WHERE email = ?"
+        val statement = connection.prepareStatement(query)
+        statement.setString(1, correoNuevo)
+        statement.setString(2, correoOriginal)
+
+        try {
+            val rowsAffected = statement.executeUpdate()
+            println(MenuColores.info() + " Se han modificado $rowsAffected registros.")
+            println(MenuColores.ok() + " Logs modificados correctamente.")
+        } catch (e: SQLException) {
+            println(MenuColores.error() + " Error al modificar los registros de logs:")
+            println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
+        } finally {
+            statement.close()
         }
     }
 }

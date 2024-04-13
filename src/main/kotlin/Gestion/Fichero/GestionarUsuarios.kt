@@ -1,8 +1,8 @@
 package Gestion.Fichero
 
-import Gestion.BaseDeDatos.GestionarBaseDatos
+import Gestion.Gestor
 import Gestion.IGestorUsuarios
-import Juego.Historial
+import Gestion.Log
 import UI.MenuColores
 import Usuario.Roles
 import Usuario.Usuario
@@ -16,6 +16,7 @@ import java.io.StreamCorruptedException
 class GestionarUsuarios : IGestorUsuarios {
     private val FICHERO_USUARIOS = "usuarios.dat"
     private var usuarios : ArrayList<Usuario>
+    private var gestorLogs = GestionarLogs()
 
     /**
      * Constructor para inicializar los usuarios.
@@ -30,10 +31,11 @@ class GestionarUsuarios : IGestorUsuarios {
      * @param usuario Usuario a añadir
      */
     override fun añadirUsuario(usuario : Usuario) {
-        var gestionarHistorial = GestionarHistoriales()
         this.usuarios.add(usuario)
         this.guardarUsuarios()
         println(MenuColores.ok() + " Usuario \"${usuario.nombre}\" creado correctamente.")
+        val logRegistro = Log(usuario.email, Gestor.fechaActual(), "Usuario creado")
+        gestorLogs.añadirLog(logRegistro)
     }
 
     /**
@@ -46,6 +48,15 @@ class GestionarUsuarios : IGestorUsuarios {
             this.usuarios.remove(usuario)
             this.guardarUsuarios()
             println(MenuColores.ok() + " Usuario " + MenuColores.rojo("borrado") + " correctamente.")
+
+            val logEliminar = Log(usuario.email, Gestor.fechaActual(), "Usuario eliminado")
+            gestorLogs.añadirLog(logEliminar)
+
+            val gestionarHistorial = GestionarHistoriales()
+            val historial = gestionarHistorial.obtenerHistorial(usuario, false)
+            if (historial != null) {
+                gestionarHistorial.borrarHistorial(historial)
+            }
         }else {
             println(MenuColores.error() + " No se ha podido encontrar el usuario.")
         }
@@ -90,6 +101,8 @@ class GestionarUsuarios : IGestorUsuarios {
         if (exito) {
             this.guardarUsuarios()
             println(MenuColores.ok() + " Se ha modificado el permiso del usuario ${usuario.nombre} correctamente.")
+            val logPermiso = Log(usuario.email, Gestor.fechaActual(), "Permisos del usuario modificados.")
+            gestorLogs.añadirLog(logPermiso)
         }else {
             println(MenuColores.error() + " No se ha encontrado el usuario ${usuario.nombre}.")
         }
@@ -112,7 +125,13 @@ class GestionarUsuarios : IGestorUsuarios {
 
         if (exito) {
             this.guardarUsuarios()
+            if (usuarioOriginal.email != datosNuevos.email) {
+                gestorLogs.modificarLog(usuarioOriginal.email, datosNuevos.email)
+            }
             println(MenuColores.ok() + " Se ha modificado el usuario " + MenuColores.magenta(datosNuevos.nombre) + " correctamente.")
+
+            val logModificacion = Log(datosNuevos.email, Gestor.fechaActual(), " Datos del usuario modificados.")
+            gestorLogs.añadirLog(logModificacion)
         }else {
             println(MenuColores.error() + " No se ha encontrado el usuario ${usuarioOriginal.nombre}.")
         }

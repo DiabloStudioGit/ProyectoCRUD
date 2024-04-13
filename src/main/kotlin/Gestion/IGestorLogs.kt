@@ -8,4 +8,6 @@ interface IGestorLogs {
     fun obtenerLogs() : ArrayList<Log>
 
     fun mostarLogs()
+
+    fun modificarLog(correoOriginal : String, correoNuevo : String)
 }

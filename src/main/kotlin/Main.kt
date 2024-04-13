@@ -56,24 +56,29 @@ fun main() {
                 if (usuario != null){
                     val menuJuego = MenuJuego(usuario)
 
-                    if (usuario.rol == Roles.ADMINISTRADOR) {
-                        //Si el usuario es Administrador, pide a donde ir
-                        when (menuLogin.pedirAdmin(usuario.email)) {
-                            1 -> {
-                                menuJuego.juego()
-                            }
-                            2 -> {
-                                val menuAdmin = MenuAdmin(gestionarUsuarios)
-                                menuAdmin.menuAdmin()
+                    when (usuario.rol) {
+                        Roles.ADMINISTRADOR -> {
+                            //Si el usuario es Administrador, pide a donde ir
+                            when (menuLogin.pedirAdmin(usuario.email)) {
+                                1 -> {
+                                    menuJuego.juego()
+                                }
+
+                                2 -> {
+                                    val menuAdmin = MenuAdmin(gestionarUsuarios)
+                                    menuAdmin.menuAdmin(usuario.email)
+                                }
                             }
                         }
-                    } else if (usuario.rol == Roles.ADMIN_NoJuego) {
-                        //Si el usuario es Administrador NO ESTANDAR, va al menuAdmin
-                        val menuAdmin = MenuAdmin(gestionarUsuarios)
-                        menuAdmin.menuAdmin()
+                        Roles.ADMIN_NoJuego -> {
+                            //Si el usuario es Administrador NO ESTANDAR, va al menuAdmin
+                            val menuAdmin = MenuAdmin(gestionarUsuarios)
+                            menuAdmin.menuAdmin(usuario.email)
 
-                    } else {
-                        menuJuego.juego()
+                        }
+                        else -> {
+                            menuJuego.juego()
+                        }
                     }
                 }
             }
