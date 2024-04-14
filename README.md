@@ -23,3 +23,4 @@ Aqui estan algunas de las caracteristicas mas importantes del proyecto:
 Lenguaje usado en el proyecto:
 
 *   Kotlin
+*   SQL
