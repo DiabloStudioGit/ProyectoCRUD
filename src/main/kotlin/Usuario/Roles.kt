@@ -3,7 +3,7 @@ package Usuario
 enum class Roles {
     ESTANDAR,
     ADMINISTRADOR,
-    ADMIN_NoJuego;
+    STAFF;
     override fun toString(): String {
         return name.lowercase()
     }

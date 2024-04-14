@@ -46,7 +46,11 @@ class MenuJuego {
                             println(historial)
                             println("Porcentaje de Victorias: " + MenuColores.magenta("${juego.calculoPorcentajeVictorias(historial)}%"))
                         }
-                        3 -> eleccion = false
+                        3 -> {
+                            val logCerrarSesion = Log(usuario.email, Gestor.fechaActual(), "Sesion de usuario cerrada.")
+                            gestorLogs.añadirLog(logCerrarSesion)
+                            eleccion = false
+                        }
                     }
                 }
             }

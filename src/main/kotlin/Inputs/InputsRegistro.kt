@@ -124,7 +124,7 @@ class InputsRegistro {
 
             when (InputsMenus.seleccionarOpcionMenu(3)) {
                 1 -> rol = Roles.ADMINISTRADOR
-                3 -> rol = Roles.ADMIN_NoJuego
+                3 -> rol = Roles.STAFF
             }
             return rol
         }

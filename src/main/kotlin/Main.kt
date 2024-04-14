@@ -42,7 +42,7 @@ fun main() {
         gestionarUsuarios.añadirUsuario(Usuario("Admin", "Root", 0, "admin@test.es", "12345", Roles.ADMINISTRADOR))
     }
     if (gestionarUsuarios.obtenerUsuario("staff@test.es") == null) {
-        gestionarUsuarios.añadirUsuario(Usuario("Staff", "Root", 0, "staff@test.es", "12345", Roles.ADMIN_NoJuego))
+        gestionarUsuarios.añadirUsuario(Usuario("Staff", "Root", 0, "staff@test.es", "12345", Roles.STAFF))
     }
 
     val menuLogin = MenuLogin(gestionarUsuarios)
@@ -70,7 +70,7 @@ fun main() {
                                 }
                             }
                         }
-                        Roles.ADMIN_NoJuego -> {
+                        Roles.STAFF -> {
                             //Si el usuario es Administrador NO ESTANDAR, va al menuAdmin
                             val menuAdmin = MenuAdmin(gestionarUsuarios)
                             menuAdmin.menuAdmin(usuario.email)

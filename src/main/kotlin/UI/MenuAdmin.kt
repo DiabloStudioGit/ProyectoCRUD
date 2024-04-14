@@ -4,6 +4,7 @@ import Gestion.*
 import Gestion.BaseDeDatos.GestionarBaseDatos
 import Gestion.Fichero.GestionarHistoriales
 import Gestion.Fichero.GestionarLogs
+import Inputs.InputsLogin
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
 import Usuario.Usuario
@@ -31,11 +32,12 @@ class MenuAdmin {
         println(MenuColores.azul("|   ") + MenuColores.magenta("[4]") + "  Borrar Usuario" + MenuColores.azul("       |"))
         println(MenuColores.azul("|   ") + MenuColores.magenta("[5]") + "  Modificar Usuario" + MenuColores.azul("    |"))
         println(MenuColores.azul("|   ") + MenuColores.magenta("[6]") + "  Cambiar Permisos" + MenuColores.azul("     |"))
-        println(MenuColores.azul("|   ") + MenuColores.magenta("[7]") + "  Salir" + MenuColores.azul("                |"))
+        println(MenuColores.azul("|   ") + MenuColores.magenta("[7]") + "  Ver Registros" + MenuColores.azul("        |"))
+        println(MenuColores.azul("|   ") + MenuColores.magenta("[8]") + "  Salir" + MenuColores.azul("                |"))
         println(MenuColores.azul("|                             |"))
         println(MenuColores.azul("@=============================@"))
 
-        return InputsMenus.seleccionarOpcionMenu(7)
+        return InputsMenus.seleccionarOpcionMenu(8)
     }
 
     fun menuAdmin(correo : String) {
@@ -49,7 +51,8 @@ class MenuAdmin {
                 4 -> borrarUsuario()
                 5 -> modificarUsuario()
                 6 -> cambiarPermisosUsuario()
-                7 -> {
+                7 -> verRegistros()
+                8 -> {
                     val logCerrarSesion = Log(correo, Gestor.fechaActual(), "Sesion de usuario cerrada.")
                     gestLogs.añadirLog(logCerrarSesion)
                     opcion = false
@@ -76,48 +79,53 @@ class MenuAdmin {
             gestUsuarios.borrarUsuario(usuario)
         }
     }
-    fun modificarUsuario(){
-        val usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
+    fun modificarUsuario() {
+        var salir = false
+        var usuario = gestUsuarios.obtenerUsuario(InputsRegistro.introducirEmail())
         if (usuario == null) {
             println(MenuColores.error() + " Usuario no encontrado")
         } else {
-            val modificaciones = usuario.copy()
+            do {
+                val modificaciones = usuario!!.copy()
+                println("Usuario seleccionado: ${usuario.nombre}")
+                println(MenuColores.rojo("@====") + "¿Qué Desea Modificar?" + MenuColores.rojo("====@"))
+                println(MenuColores.rojo("|   ") + MenuColores.amarillo("[1]") + "  Nombre" + MenuColores.rojo("               |"))
+                println(MenuColores.rojo("|   ") + MenuColores.amarillo("[2]") + "  Apellido" + MenuColores.rojo("             |"))
+                println(MenuColores.rojo("|   ") + MenuColores.amarillo("[3]") + "  Edad" + MenuColores.rojo("                 |"))
+                println(MenuColores.rojo("|   ") + MenuColores.amarillo("[4]") + "  Email" + MenuColores.rojo("                |"))
+                println(MenuColores.rojo("|   ") + MenuColores.amarillo("[5]") + "  Contraseña" + MenuColores.rojo("           |"))
+                println(MenuColores.rojo("|   ") + MenuColores.amarillo("[6]") + "  Salir" + MenuColores.rojo("                |"))
+                println(MenuColores.rojo("@=============================@"))
 
-            println("Usuario seleccionado: ${usuario.nombre}")
-            println(MenuColores.rojo("@====") + "¿Qué Desea Modificar?" + MenuColores.rojo("====@"))
-            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[1]") + "  Nombre" + MenuColores.rojo("               |"))
-            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[2]") + "  Apellido" + MenuColores.rojo("             |"))
-            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[3]") + "  Edad" + MenuColores.rojo("                 |"))
-            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[4]") + "  Email" + MenuColores.rojo("                |"))
-            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[5]") + "  Contraseña" + MenuColores.rojo("           |"))
-            println(MenuColores.rojo("|   ") + MenuColores.amarillo("[6]") + "  Salir" + MenuColores.rojo("                |"))
-            println(MenuColores.rojo("@=============================@"))
-
-            val opcion = InputsMenus.seleccionarOpcionMenu(6)
-            when (opcion) {
-                1 -> modificaciones.nombre = InputsRegistro.introducirNombre()
-                2 -> modificaciones.apellido = InputsRegistro.introducirApellidos()
-                3 -> modificaciones.edad = InputsRegistro.introducirEdad()
-                4 -> {
-                    val emailNuevo = InputsRegistro.introducirEmail()
-                    val gestionarHistorial : IGestorHistoriales
-                    if (Gestor.eleccion) {
-                        gestionarHistorial = GestionarBaseDatos()
-                    } else {
-                        gestionarHistorial = GestionarHistoriales()
+                val opcion = InputsMenus.seleccionarOpcionMenu(6)
+                when (opcion) {
+                    1 -> modificaciones.nombre = InputsRegistro.introducirNombre()
+                    2 -> modificaciones.apellido = InputsRegistro.introducirApellidos()
+                    3 -> modificaciones.edad = InputsRegistro.introducirEdad()
+                    4 -> {
+                        val emailNuevo = InputsRegistro.introducirEmail()
+                        val gestionarHistorial : IGestorHistoriales
+                        if (Gestor.eleccion) {
+                            gestionarHistorial = GestionarBaseDatos()
+                        } else {
+                            gestionarHistorial = GestionarHistoriales()
+                        }
+                        val historial = gestionarHistorial.obtenerHistorial(usuario.email)
+                        val historialNuevo = historial!!.copy()
+                        historialNuevo.emailJugador = emailNuevo
+                        gestionarHistorial.modificarHistorial(historial, historialNuevo, true)
+                        modificaciones.email = emailNuevo
                     }
-                    val historial = gestionarHistorial.obtenerHistorial(usuario.email)
-                    val historialNuevo = historial!!.copy()
-                    historialNuevo.emailJugador = emailNuevo
-                    gestionarHistorial.modificarHistorial(historial, historialNuevo, true)
-                    modificaciones.email = emailNuevo
+                    5 -> modificaciones.contrasenia = InputsRegistro.introducirContrasenia()
+                    6 -> {
+                        salir = true
+                    }
                 }
-                5 -> modificaciones.contrasenia = InputsRegistro.introducirContrasenia()
-                6 -> {}
-            }
-            if (opcion != 6) {
-                gestUsuarios.modificarUsuario(usuario, modificaciones)
-            }
+                if (!salir) {
+                    gestUsuarios.modificarUsuario(usuario, modificaciones)
+                }
+                usuario = gestUsuarios.obtenerUsuario(modificaciones.email)
+            } while (!salir)
         }
     }
     fun cambiarPermisosUsuario(){
@@ -126,6 +134,33 @@ class MenuAdmin {
             println(MenuColores.error() + " Usuario no encontrado")
         } else {
             gestUsuarios.modificarPermisos(usuario, InputsRegistro.introducirRol())
+        }
+    }
+    fun verRegistros(){
+        var opcion = true
+        while (opcion) {
+            println(MenuColores.magenta("@======") + "¿Qué Desea Hacer?" + MenuColores.magenta("======@"))
+            println(MenuColores.magenta("|                             |"))
+            println(MenuColores.magenta("|   ") + MenuColores.azul("[1]") + "  Buscar Registro" + MenuColores.magenta("      |"))
+            println(MenuColores.magenta("|   ") + MenuColores.azul("[2]") + "  Mostrar Registros" + MenuColores.magenta("    |"))
+            println(MenuColores.magenta("|   ") + MenuColores.azul("[3]") + "  Salir" + MenuColores.magenta("                |"))
+            println(MenuColores.magenta("|                             |"))
+            println(MenuColores.magenta("@=============================@"))
+
+            when (InputsMenus.seleccionarOpcionMenu(3)) {
+                1 -> {
+                    val registro = gestLogs.obtenerLog(InputsRegistro.introducirEmail())
+                    if (registro != null) {
+                        for ((i, log) in registro.withIndex()) {
+                            println("${i + 1}: $log")
+                        }
+                    } else {
+                     println(MenuColores.error() + " No se ha encontrado ningun registro.")
+                    }
+                }
+                2 -> gestLogs.mostarLogs()
+                3 -> opcion = false
+            }
         }
     }
 }

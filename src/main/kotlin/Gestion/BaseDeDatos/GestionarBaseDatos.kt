@@ -14,9 +14,9 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
     private val connection : Connection
 
     constructor() {
-        val bduser = ""
-        val bdpasswd = ""
-        val bdurl = "jdbc:mysql://:3306/crud"
+        val bduser = Secret.bduser//""
+        val bdpasswd = Secret.bdpasswd//""
+        val bdurl = Secret.bdurl//"jdbc:mysql://:3306/crud"
         this.connection = DriverManager.getConnection(bdurl, bduser, bdpasswd)
     }
 
@@ -40,7 +40,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
                 Roles.ADMINISTRADOR -> {
                     statement.setInt(6,1)
                 }
-                Roles.ADMIN_NoJuego -> {
+                Roles.STAFF -> {
                     statement.setInt(6, 2)
                 }
                 else -> {
@@ -119,7 +119,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
                 if (resultSet.getInt("rol") == 1) {
                     rol = Roles.ADMINISTRADOR
                 } else if (resultSet.getInt("rol") == 2){
-                    rol = Roles.ADMIN_NoJuego
+                    rol = Roles.STAFF
                 } else {
                     rol = Roles.ESTANDAR
                 }
@@ -154,7 +154,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
                     Roles.ADMINISTRADOR -> {
                         statement.setInt(1, 1)
                     }
-                    Roles.ADMIN_NoJuego -> {
+                    Roles.STAFF -> {
                         statement.setInt(1,2)
                     }
                     else -> {
@@ -184,12 +184,10 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
      * @param usuarioOriginal El objeto Usuario cuyos datos se van a modificar.
      * @param datosNuevos El objeto Usuario con los nuevos datos que se van a asignar al usuario.
      */
-    override fun modificarUsuario(usuarioOriginal : Usuario, datosNuevos : Usuario) {
+    override fun modificarUsuario(usuarioOriginal: Usuario, datosNuevos: Usuario) {
         val user = obtenerUsuario(usuarioOriginal.email)
         if (user != null) {
-
             val query = "UPDATE usuarios SET nombre = ?, apellidos = ?, edad = ?, email = ?, password = ? WHERE email = ?"
-
             try {
                 val statement = connection.prepareStatement(query)
                 statement.setString(1, datosNuevos.nombre)
@@ -199,15 +197,33 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
                 statement.setString(5, datosNuevos.contrasenia)
                 statement.setString(6, usuarioOriginal.email)
 
-                val logModificacion = Log(datosNuevos.email, Gestor.fechaActual(), " Datos del usuario modificados.")
+                var cambios = ""
+                if (datosNuevos.nombre != usuarioOriginal.nombre) {
+                    cambios = "Nombre: ${usuarioOriginal.nombre} -> ${datosNuevos.nombre}"
+                }
+                if (datosNuevos.apellido != usuarioOriginal.apellido) {
+                    cambios = "Apellido: ${usuarioOriginal.apellido} -> ${datosNuevos.apellido}"
+                }
+                if (datosNuevos.edad != usuarioOriginal.edad) {
+                    cambios = "Edad: ${usuarioOriginal.edad} -> ${datosNuevos.edad}"
+                }
+                if (datosNuevos.email != usuarioOriginal.email) {
+                    cambios = "Email: ${usuarioOriginal.email} -> ${datosNuevos.email}"
+                    this.modificarLog(usuarioOriginal.email, datosNuevos.email)
+                }
+                if (datosNuevos.contrasenia != usuarioOriginal.contrasenia) {
+                    cambios = "Contraseña"
+                }
+
+                val logModificacion = Log(datosNuevos.email, Gestor.fechaActual(), "Se ha modificado el campo $cambios")
                 this.añadirLog(logModificacion)
 
                 statement.executeUpdate()
                 statement.close()
-                println(MenuColores.ok() + " Usuario " + MenuColores.magenta(datosNuevos.nombre) +" modificado con éxito")
+                println(MenuColores.ok() + " Usuario " + MenuColores.magenta(datosNuevos.nombre) + " modificado con éxito")
             } catch (e: SQLException) {
                 println(MenuColores.error() + " Error al modificar el usuario:")
-                println(MenuColores.amarillo("[${e.errorCode}]") +  "${e.message}")
+                println(MenuColores.amarillo("[${e.errorCode}]") + "${e.message}")
             }
         } else {
             println(MenuColores.error() + " El usuario no existe.")
@@ -487,7 +503,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
      * @return Devuelve un Array con los logs en caso de encontrarlo o null si no se encuentra en la Basd de Datos.
      */
     override fun obtenerLog(email: String): ArrayList<Log>? {
-        val statement = connection.prepareStatement("SELECT * FROM logs WHERE email = ?")
+        val statement = connection.prepareStatement("SELECT * FROM logs WHERE usuario = ?")
         statement.setString(1, email)
         val resultSet = statement.executeQuery()
 
@@ -495,7 +511,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
 
         try {
             while (resultSet.next()) {
-                val emailLog = resultSet.getString("email")
+                val emailLog = resultSet.getString("usuario")
                 val fechaLog = resultSet.getString("fecha")
                 val accionLog = resultSet.getString("accion")
 
@@ -531,7 +547,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
 
         try {
             while (resultSet.next()) {
-                val email = resultSet.getString("email")
+                val email = resultSet.getString("usuario")
                 val fecha = resultSet.getString("fecha")
                 val accion = resultSet.getString("accion")
 
@@ -556,7 +572,7 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
     override fun mostarLogs() {
         println("Logs:")
         obtenerLogs().forEachIndexed { index, log ->
-            println("${index + 1}. Usuario: ${log.email}, Fecha: ${log.fecha}, Accion: ${log.accion}")
+            println("${index + 1}. ${MenuColores.azul("Usuario:")} ${log.email}, ${MenuColores.magenta("Fecha:")} ${log.fecha}, ${MenuColores.cian("Accion:")} ${log.accion}")
         }
     }
 
@@ -566,8 +582,8 @@ class GestionarBaseDatos : IGestorUsuarios, IGestorHistoriales, IGestorLogs {
      * @param correoOriginal Registro a modificar.
      * @param correoNuevo Datos nuevos para el Registro a modificar.
      */
-    override fun modificarLog(correoOriginal : String, correoNuevo : String) {
-        val query = "UPDATE logs SET email = ? WHERE email = ?"
+    override fun modificarLog(correoOriginal: String, correoNuevo: String) {
+        val query = "UPDATE logs SET usuario = ? WHERE usuario = ?"
         val statement = connection.prepareStatement(query)
         statement.setString(1, correoNuevo)
         statement.setString(2, correoOriginal)
