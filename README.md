@@ -12,9 +12,11 @@
 
 Aqui estan algunas de las caracteristicas mas importantes del proyecto:
 
-*   Guardado por ficheros
+*   Guardado de datos mediante ficheros
+*   Guardado de datos mediante Base de Datos
 *   Juego con historial de partidas
 *   Menu de administracion completamente funcional
+*   Sistema de registros que almacena algunas acciones de los usuarios
 
   
   
