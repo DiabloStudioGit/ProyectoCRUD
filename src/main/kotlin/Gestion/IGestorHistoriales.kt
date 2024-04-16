@@ -1,8 +1,7 @@
 package Gestion
 
-import Juego.Historial
-import Usuario.Roles
-import Usuario.Usuario
+import Data.Juego.Historial
+import Data.Usuario.Usuario
 
 interface IGestorHistoriales {
 

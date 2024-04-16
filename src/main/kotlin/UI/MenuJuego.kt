@@ -1,33 +1,25 @@
 package UI
 
-import Gestion.BaseDeDatos.GestionarBaseDatos
-import Gestion.Fichero.GestionarHistoriales
-import Gestion.Fichero.GestionarLogs
-import Gestion.Gestor
+import Gestion.Gestores
 import Gestion.IGestorHistoriales
 import Gestion.IGestorLogs
 import Gestion.Log
 import Inputs.InputsJuego
 import Inputs.InputsMenus
-import Juego.Historial
+import Data.Juego.Historial
 import Juego.LogicaJuego
-import Usuario.Usuario
+import Data.Usuario.Usuario
 
 class MenuJuego {
     var gestorLogs : IGestorLogs
     var gestor : IGestorHistoriales
     val usuario : Usuario
     constructor(usuario : Usuario) {
-        if (!Gestor.eleccion) {
-            gestor = GestionarHistoriales()
-            gestorLogs = GestionarLogs()
-
-        } else {
-            gestor = GestionarBaseDatos()
-            gestorLogs = GestionarBaseDatos()
-        }
+        gestor = Gestores.gestorHistoriales
+        gestorLogs = Gestores.gestorLogs
         this.usuario = usuario
     }
+
     fun juego() {
         var eleccion = true
         val juego = LogicaJuego()
@@ -47,7 +39,7 @@ class MenuJuego {
                             println("Porcentaje de Victorias: " + MenuColores.magenta("${juego.calculoPorcentajeVictorias(historial)}%"))
                         }
                         3 -> {
-                            val logCerrarSesion = Log(usuario.email, Gestor.fechaActual(), "Sesion de usuario cerrada.")
+                            val logCerrarSesion = Log(usuario.email, Gestores.fechaActual(), "Sesion de usuario cerrada.")
                             gestorLogs.añadirLog(logCerrarSesion)
                             eleccion = false
                         }
@@ -63,7 +55,7 @@ class MenuJuego {
                         println("Porcentaje de Victorias: " + MenuColores.magenta("${juego.calculoPorcentajeVictorias(historial)}%"))
                     }
                     3 -> {
-                        val logCerrarSesion = Log(usuario.email, Gestor.fechaActual(), "Sesion de usuario cerrada.")
+                        val logCerrarSesion = Log(usuario.email, Gestores.fechaActual(), "Sesion de usuario cerrada.")
                         gestorLogs.añadirLog(logCerrarSesion)
                         eleccion = false
                     }

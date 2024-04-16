@@ -1,11 +1,11 @@
 package Gestion.Fichero
 
-import Gestion.Gestor
+import Gestion.Gestores
 import Gestion.IGestorUsuarios
 import Gestion.Log
 import UI.MenuColores
-import Usuario.Roles
-import Usuario.Usuario
+import Data.Usuario.Roles
+import Data.Usuario.Usuario
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -34,7 +34,7 @@ class GestionarUsuarios : IGestorUsuarios {
         this.usuarios.add(usuario)
         this.guardarUsuarios()
         println(MenuColores.ok() + " Usuario \"${usuario.nombre}\" creado correctamente.")
-        val logRegistro = Log(usuario.email, Gestor.fechaActual(), "Usuario creado")
+        val logRegistro = Log(usuario.email, Gestores.fechaActual(), "Usuario creado")
         gestorLogs.añadirLog(logRegistro)
     }
 
@@ -49,7 +49,7 @@ class GestionarUsuarios : IGestorUsuarios {
             this.guardarUsuarios()
             println(MenuColores.ok() + " Usuario " + MenuColores.rojo("borrado") + " correctamente.")
 
-            val logEliminar = Log(usuario.email, Gestor.fechaActual(), "Usuario eliminado")
+            val logEliminar = Log(usuario.email, Gestores.fechaActual(), "Usuario eliminado")
             gestorLogs.añadirLog(logEliminar)
 
             val gestionarHistorial = GestionarHistoriales()
@@ -101,7 +101,7 @@ class GestionarUsuarios : IGestorUsuarios {
         if (exito) {
             this.guardarUsuarios()
             println(MenuColores.ok() + " Se ha modificado el permiso del usuario ${usuario.nombre} correctamente.")
-            val logPermiso = Log(usuario.email, Gestor.fechaActual(), "Permisos del usuario modificados.")
+            val logPermiso = Log(usuario.email, Gestores.fechaActual(), "Permisos del usuario modificados.")
             gestorLogs.añadirLog(logPermiso)
         }else {
             println(MenuColores.error() + " No se ha encontrado el usuario ${usuario.nombre}.")
@@ -130,7 +130,7 @@ class GestionarUsuarios : IGestorUsuarios {
             }
             println(MenuColores.ok() + " Se ha modificado el usuario " + MenuColores.magenta(datosNuevos.nombre) + " correctamente.")
 
-            val logModificacion = Log(datosNuevos.email, Gestor.fechaActual(), " Datos del usuario modificados.")
+            val logModificacion = Log(datosNuevos.email, Gestores.fechaActual(), " Datos del usuario modificados.")
             gestorLogs.añadirLog(logModificacion)
         }else {
             println(MenuColores.error() + " No se ha encontrado el usuario ${usuarioOriginal.nombre}.")

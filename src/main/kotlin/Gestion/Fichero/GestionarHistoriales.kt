@@ -1,11 +1,11 @@
 package Gestion.Fichero
 
-import Gestion.Gestor
+import Gestion.Gestores
 import Gestion.IGestorHistoriales
 import Gestion.Log
-import Juego.Historial
+import Data.Juego.Historial
 import UI.MenuColores
-import Usuario.Usuario
+import Data.Usuario.Usuario
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -16,7 +16,6 @@ import java.io.StreamCorruptedException
 class GestionarHistoriales : IGestorHistoriales {
     private val FICHERO_HISTORIALES = "historiales.dat"
     private var historiales : ArrayList<Historial>
-    private val gestorLogs = GestionarLogs()
 
     /**
      * Constructor para inicializar los historiales.
@@ -34,8 +33,8 @@ class GestionarHistoriales : IGestorHistoriales {
         this.historiales.add(historial)
         this.guardarHistoriales()
         println(MenuColores.ok() + " Historial creado correctamente.")
-        val logRegistro = Log(historial.emailJugador, Gestor.fechaActual(), "Historial de juego creado")
-        gestorLogs.añadirLog(logRegistro)
+        val logRegistro = Log(historial.emailJugador, Gestores.fechaActual(), "Historial de juego creado")
+        Gestores.gestorLogs.añadirLog(logRegistro)
     }
 
     /**
@@ -48,8 +47,8 @@ class GestionarHistoriales : IGestorHistoriales {
             this.historiales.remove(historial)
             this.guardarHistoriales()
             println(MenuColores.ok() + " Historial " + MenuColores.rojo("borrado") + " correctamente.")
-            val logEliminar = Log(historial.emailJugador, Gestor.fechaActual(), "Historial de juego eliminado")
-            gestorLogs.añadirLog(logEliminar)
+            val logEliminar = Log(historial.emailJugador, Gestores.fechaActual(), "Historial de juego eliminado")
+            Gestores.gestorLogs.añadirLog(logEliminar)
         }else {
             println(MenuColores.error() + " No se ha podido encontrar el historial")
         }

@@ -1,25 +1,17 @@
 package UI
 
 import Gestion.*
-import Gestion.BaseDeDatos.GestionarBaseDatos
-import Gestion.Fichero.GestionarHistoriales
-import Gestion.Fichero.GestionarLogs
-import Inputs.InputsLogin
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
-import Usuario.Usuario
+import Data.Usuario.Usuario
 
 class MenuAdmin {
     val gestUsuarios : IGestorUsuarios
     var gestLogs : IGestorLogs
 
-    constructor(gestor : IGestorUsuarios) {
-        this.gestUsuarios = gestor
-        gestLogs = if (Gestor.eleccion) {
-            GestionarBaseDatos()
-        } else {
-            GestionarLogs()
-        }
+    constructor() {
+        this.gestUsuarios = Gestores.gestorUsuarios
+        this.gestLogs = Gestores.gestorLogs
     }
 
     fun mostrarMenu(): Int {
@@ -53,7 +45,7 @@ class MenuAdmin {
                 6 -> cambiarPermisosUsuario()
                 7 -> verRegistros()
                 8 -> {
-                    val logCerrarSesion = Log(correo, Gestor.fechaActual(), "Sesion de usuario cerrada.")
+                    val logCerrarSesion = Log(correo, Gestores.fechaActual(), "Sesion de usuario cerrada.")
                     gestLogs.añadirLog(logCerrarSesion)
                     opcion = false
                 }
@@ -104,12 +96,7 @@ class MenuAdmin {
                     3 -> modificaciones.edad = InputsRegistro.introducirEdad()
                     4 -> {
                         val emailNuevo = InputsRegistro.introducirEmail()
-                        val gestionarHistorial : IGestorHistoriales
-                        if (Gestor.eleccion) {
-                            gestionarHistorial = GestionarBaseDatos()
-                        } else {
-                            gestionarHistorial = GestionarHistoriales()
-                        }
+                        val gestionarHistorial : IGestorHistoriales = Gestores.gestorHistoriales
                         val historial = gestionarHistorial.obtenerHistorial(usuario.email)
                         val historialNuevo = historial!!.copy()
                         historialNuevo.emailJugador = emailNuevo

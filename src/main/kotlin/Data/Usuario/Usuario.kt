@@ -1,4 +1,4 @@
-package Usuario
+package Data.Usuario
 
 import UI.MenuColores
 import java.io.Serializable

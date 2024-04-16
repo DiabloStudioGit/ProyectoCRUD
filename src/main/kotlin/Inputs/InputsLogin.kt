@@ -1,7 +1,7 @@
 package Inputs
 
 import UI.MenuColores
-import Usuario.Usuario
+import Data.Usuario.Usuario
 
 class InputsLogin {
     /**

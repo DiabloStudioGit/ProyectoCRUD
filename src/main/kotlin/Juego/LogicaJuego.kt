@@ -1,5 +1,6 @@
 package Juego
 
+import Data.Juego.Historial
 import UI.MenuColores
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols

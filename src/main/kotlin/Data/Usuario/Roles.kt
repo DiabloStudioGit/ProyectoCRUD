@@ -1,4 +1,4 @@
-package Usuario
+package Data.Usuario
 
 enum class Roles {
     ESTANDAR,

@@ -1,7 +1,7 @@
 package Gestion
 
-import Usuario.Roles
-import Usuario.Usuario
+import Data.Usuario.Roles
+import Data.Usuario.Usuario
 
 interface IGestorUsuarios {
 

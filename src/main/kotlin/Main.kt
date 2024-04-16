@@ -1,19 +1,15 @@
-import Gestion.BaseDeDatos.GestionarBaseDatos
 import UI.MenuLogin
-import Gestion.Fichero.GestionarUsuarios
-import Gestion.Gestor
-import Gestion.IGestorUsuarios
+import Gestion.Gestores
 import Inputs.InputsMenus
 import Inputs.InputsRegistro
 import UI.MenuAdmin
 import UI.MenuColores
 import UI.MenuJuego
-import Usuario.Roles
-import Usuario.Usuario
+import Data.Usuario.Roles
+import Data.Usuario.Usuario
 import java.sql.SQLException
 
 fun main() {
-    var gestionarUsuarios : IGestorUsuarios
     //Imprimir eleccion entre bbdd o fichero
 
     MenuLogin.bienvenida()
@@ -22,30 +18,29 @@ fun main() {
     when (gestor) {
         1 -> {
             println("Se va a proceder con el " + MenuColores.azul("sistema de ficheros."))
-            gestionarUsuarios = GestionarUsuarios()
+            Gestores.establecerFicheros()
         }
         else -> {
             try{
-                gestionarUsuarios = GestionarBaseDatos()
+                Gestores.establecerBaseDeDatos()
                 println("Se va a proceder con el sistema de " + MenuColores.azul("Base de Datos."))
-                Gestor.eleccion = true
             }catch (ex : SQLException) {
                 println(MenuColores.error() + " No se ha podido conectar con la base de datos.")
                 println(MenuColores.info() + " Se va a proceder con el " + MenuColores.azul("sistema de ficheros."))
-                gestionarUsuarios = GestionarUsuarios()
+                Gestores.establecerFicheros()
             }
         }
     }
 
     //Añade un administrador y un Staff para Debug
-    if (gestionarUsuarios.obtenerUsuario("admin@test.es") == null) {
-        gestionarUsuarios.añadirUsuario(Usuario("Admin", "Root", 0, "admin@test.es", "12345", Roles.ADMINISTRADOR))
+    if (Gestores.gestorUsuarios.obtenerUsuario("admin@test.es") == null) {
+        Gestores.gestorUsuarios.añadirUsuario(Usuario("Admin", "Root", 0, "admin@test.es", "12345", Roles.ADMINISTRADOR))
     }
-    if (gestionarUsuarios.obtenerUsuario("staff@test.es") == null) {
-        gestionarUsuarios.añadirUsuario(Usuario("Staff", "Root", 0, "staff@test.es", "12345", Roles.STAFF))
+    if (Gestores.gestorUsuarios.obtenerUsuario("staff@test.es") == null) {
+        Gestores.gestorUsuarios.añadirUsuario(Usuario("Staff", "Root", 0, "staff@test.es", "12345", Roles.STAFF))
     }
 
-    val menuLogin = MenuLogin(gestionarUsuarios)
+    val menuLogin = MenuLogin()
 
     do {
         menuLogin.imprimirOpciones()
@@ -65,14 +60,14 @@ fun main() {
                                 }
 
                                 2 -> {
-                                    val menuAdmin = MenuAdmin(gestionarUsuarios)
+                                    val menuAdmin = MenuAdmin()
                                     menuAdmin.menuAdmin(usuario.email)
                                 }
                             }
                         }
                         Roles.STAFF -> {
                             //Si el usuario es Administrador NO ESTANDAR, va al menuAdmin
-                            val menuAdmin = MenuAdmin(gestionarUsuarios)
+                            val menuAdmin = MenuAdmin()
                             menuAdmin.menuAdmin(usuario.email)
 
                         }
@@ -83,7 +78,7 @@ fun main() {
                 }
             }
             2 -> {
-                gestionarUsuarios.añadirUsuario(Usuario(InputsRegistro.introducirNombre(), InputsRegistro.introducirApellidos(), InputsRegistro.introducirEdad(), InputsRegistro.introducirEmail(), InputsRegistro.introducirContrasenia(), Roles.ESTANDAR))
+                Gestores.gestorUsuarios.añadirUsuario(Usuario(InputsRegistro.introducirNombre(), InputsRegistro.introducirApellidos(), InputsRegistro.introducirEdad(), InputsRegistro.introducirEmail(), InputsRegistro.introducirContrasenia(), Roles.ESTANDAR))
             }
         }
 

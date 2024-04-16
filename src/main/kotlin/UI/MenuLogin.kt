@@ -1,14 +1,12 @@
 package UI
 
-import Gestion.BaseDeDatos.GestionarBaseDatos
-import Gestion.Fichero.GestionarLogs
-import Gestion.Gestor
+import Gestion.Gestores
 import Gestion.IGestorLogs
 import Gestion.IGestorUsuarios
 import Gestion.Log
 import Inputs.InputsLogin
 import Inputs.InputsMenus
-import Usuario.Usuario
+import Data.Usuario.Usuario
 
 class MenuLogin {
 
@@ -16,13 +14,9 @@ class MenuLogin {
     val gestionarLogs : IGestorLogs
     val inputsLogin = InputsLogin()
 
-    constructor(gestor : IGestorUsuarios) {
-        this.gestionarUsuarios = gestor
-        gestionarLogs = if (Gestor.eleccion) {
-            GestionarBaseDatos()
-        } else {
-            GestionarLogs()
-        }
+    constructor() {
+        this.gestionarUsuarios = Gestores.gestorUsuarios
+        this.gestionarLogs = Gestores.gestorLogs
     }
 
     fun imprimirOpciones() {
@@ -42,13 +36,13 @@ class MenuLogin {
 
         if (usuario == null) {
             println(MenuColores.error() + " No hay ningun usuario registrado con ese correo")
-            logSesion = Log(correo, Gestor.fechaActual(), "Intento fallido: No existe el correo.")
+            logSesion = Log(correo, Gestores.fechaActual(), "Intento fallido: No existe el correo.")
         }else if (inputsLogin.ingresoContrasenia(usuario)) {
             println(MenuColores.ok() + " Iniciando sesión...")
-            logSesion = Log(correo, Gestor.fechaActual(), "Inicio de Sesion correcto.")
+            logSesion = Log(correo, Gestores.fechaActual(), "Inicio de Sesion correcto.")
         } else {
             println(MenuColores.error() + " Error al iniciar sesión")
-            logSesion = Log(correo, Gestor.fechaActual(), "Intento fallido: Error al Iniciar Sesion.")
+            logSesion = Log(correo, Gestores.fechaActual(), "Intento fallido: Error al Iniciar Sesion.")
         }
         gestionarLogs.añadirLog(logSesion)
 

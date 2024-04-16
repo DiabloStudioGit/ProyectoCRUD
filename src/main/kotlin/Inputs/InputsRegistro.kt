@@ -1,7 +1,7 @@
 package Inputs
 
 import UI.MenuColores
-import Usuario.Roles
+import Data.Usuario.Roles
 
 class InputsRegistro {
     companion object {
